@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/page_navigation"
+    app:startDestination="@+id/stats">
+
+
+    <fragment
+        android:id="@+id/stats"
+        android:name="by.homework.hlazarseni.tfgridexplorer.StatsFragment"
+        tools:layout="@layout/stats_fragment" />
+
+    <fragment
+        android:id="@+id/nodes_list"
+        android:name="by.homework.hlazarseni.tfgridexplorer.NodeListFragment"
+        tools:layout="@layout/node_list_fragment" />
+</navigation>
