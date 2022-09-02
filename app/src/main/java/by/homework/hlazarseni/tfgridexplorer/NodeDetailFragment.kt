@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
 
@@ -30,8 +31,14 @@ class NodeDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val upTime = TimeConverter().timeToString(args.uptime.toLong())
-        binding.textView.text = upTime
+        with(binding){
+            toolbarDetail.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
+            val upTime = TimeConverter().timeToString(args.uptime.toLong())
+            textView.text = upTime
+        }
+
     }
 
     override fun onDestroyView() {

@@ -33,7 +33,7 @@ class StatsFragment : Fragment() {
                     override fun onResponse(call: Call<Node>, response: Response<Node>) {
                         if (response.isSuccessful) {
                             val stats = response.body() ?: return
-                            binding.nodesOnline.text = stats.farms
+                            binding.nodesOnline.text = stats.nodes
                             // binding.totalCru.text = stats.totalCru
 
                         } else {

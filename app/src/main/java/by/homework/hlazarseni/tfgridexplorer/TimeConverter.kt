@@ -1,6 +1,7 @@
 package by.homework.hlazarseni.tfgridexplorer
 
-import java.lang.Math.floor
+import kotlin.math.floor
+
 
 class TimeConverter {
 
@@ -35,7 +36,7 @@ class TimeConverter {
         val secondPeriod = priorityMap[secondPeriodName]
 
 
-        return "$firstPeriod $firstPeriodName, $secondPeriod $secondPeriodName"
+        return "Up Time $firstPeriod $firstPeriodName, $secondPeriod $secondPeriodName"
 
     }
 

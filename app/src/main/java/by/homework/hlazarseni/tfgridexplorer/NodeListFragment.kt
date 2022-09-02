@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import retrofit2.*
 class NodeListFragment : Fragment() {
     private var _binding: NodeListFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
+    private val currentNodes = mutableListOf<Node>()
 
     private val adapter by lazy {
         NodeAdapter(
@@ -53,21 +55,28 @@ class NodeListFragment : Fragment() {
 
         with(binding) {
 
-            toolbar
+            toolbarList
                 .menu
                 .findItem(R.id.action_search)
                 .actionView
                 .let { it as SearchView }
-                .setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         return false
                     }
 
                     override fun onQueryTextChange(query: String): Boolean {
-                      adapter.submitList(adapter.currentList.filter {it.toString().contains(query) })
+                        val list = currentNodes.filter { it.nodeId.contains(query) }.map {
+                            PagingData.Item(it)
+                        }
+                        adapter.submitList(list)
                         return true
                     }
                 })
+
+            toolbarList.setNavigationOnClickListener {
+                findNavController().navigateUp()
+            }
 
             swipeRefreshList.setOnRefreshListener {
                 adapter.submitList(emptyList())

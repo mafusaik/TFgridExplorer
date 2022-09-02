@@ -1,6 +1,8 @@
 package by.homework.hlazarseni.tfgridexplorer
 
 import android.content.Context
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -88,7 +90,6 @@ class NodeAdapter(
         }
     }
 }
-
 
 class NodeViewHolder(
     private val binding: ItemNodeBinding,
