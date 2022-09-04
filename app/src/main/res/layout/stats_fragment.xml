@@ -6,6 +6,15 @@
     android:clickable="true"
     android:focusable="true">
 
+    <TextView
+        android:id="@+id/nodes_online1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="1111" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -18,20 +27,19 @@
     android:layout_height="fill_parent">
 
     <ImageView
-        android:id="@+id/nodes_image_view"
+        android:id="@+id/progress_cru"
         android:layout_width="150dp"
         android:layout_height="200dp"
         android:padding="40dp"
         android:src="@drawable/ic_baseline_computer_24" />
 
     <TextView
-        android:id="@+id/nodes_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/nodes_image_view"
-        android:layout_alignTop="@id/nodes_image_view"
-        android:layout_alignEnd="@id/nodes_image_view"
-        android:layout_alignBottom="@id/nodes_image_view"
+        android:layout_alignStart="@id/progress_cru"
+        android:layout_alignTop="@id/progress_cru"
+        android:layout_alignEnd="@id/progress_cru"
+        android:layout_alignBottom="@id/progress_cru"
         android:gravity="center_horizontal"
         android:paddingVertical="15dp"
         android:text="Nodes Online"
@@ -42,10 +50,10 @@
         android:id="@+id/nodes_online"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@id/nodes_image_view"
-        android:layout_alignTop="@id/nodes_image_view"
-        android:layout_alignEnd="@id/nodes_image_view"
-        android:layout_alignBottom="@id/nodes_image_view"
+        android:layout_alignStart="@id/progress_cru"
+        android:layout_alignTop="@id/progress_cru"
+        android:layout_alignEnd="@id/progress_cru"
+        android:layout_alignBottom="@id/progress_cru"
         android:gravity="bottom|center"
         android:paddingVertical="15dp"
         android:text=""

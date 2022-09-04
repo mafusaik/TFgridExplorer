@@ -6,11 +6,20 @@ data class Node(
     val status: String,
     val uptime: String,
     val country: String,
-    val nodes: String,
-    val farms: String,
-    val countries: String,
-    val totalCru: String,
-    val totalSru: Int,
-    val totalMru: Int,
-    val totalHru: Int
+    val total_resources: TotalRes,
+    val used_resources: UsedRes
+)
+
+data class TotalRes(
+    val cru: Long,
+    val sru: Long,
+    val hru: Long,
+    val mru: Long
+)
+
+data class UsedRes(
+    val cru: Long,
+    val sru: Long,
+    val hru: Long,
+    val mru: Long
 )

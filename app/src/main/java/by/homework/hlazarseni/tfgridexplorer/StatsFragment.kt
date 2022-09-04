@@ -29,11 +29,12 @@ class StatsFragment : Fragment() {
         GridProxyService.api
             .getStats()
             .apply {
-                enqueue(object : Callback<Node> {
-                    override fun onResponse(call: Call<Node>, response: Response<Node>) {
+                enqueue(object : Callback<Stats> {
+                    override fun onResponse(call: Call<Stats>, response: Response<Stats>) {
                         if (response.isSuccessful) {
                             val stats = response.body() ?: return
                             binding.nodesOnline.text = stats.nodes
+                            //binding.nodesOnline1.text = stats.countries
                             // binding.totalCru.text = stats.totalCru
 
                         } else {
@@ -41,11 +42,10 @@ class StatsFragment : Fragment() {
                         }
                     }
 
-                    override fun onFailure(call: Call<Node>, t: Throwable) {
+                    override fun onFailure(call: Call<Stats>, t: Throwable) {
                         if (!call.isCanceled) {
                             handleException(t)
                         }
-                        println()
                     }
                 })
             }

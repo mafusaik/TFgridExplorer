@@ -23,6 +23,36 @@
         <argument
             android:name="uptime"
             app:argType="string" />
+        <argument
+            android:name="total_resources_cru"
+            app:argType="long" />
+        <argument
+            android:name="used_resources_cru"
+            app:argType="long" />
+        <argument
+            android:name="total_resources_sru"
+            app:argType="long" />
+        <argument
+            android:name="used_resources_sru"
+            app:argType="long" />
+        <argument
+            android:name="total_resources_hru"
+            app:argType="long" />
+        <argument
+            android:name="used_resources_hru"
+            app:argType="long" />
+        <argument
+            android:name="total_resources_mru"
+            app:argType="long" />
+        <argument
+            android:name="used_resources_mru"
+            app:argType="long" />
+        <argument
+            android:name="node_id"
+            app:argType="string" />
+        <argument
+            android:name="farm_id"
+            app:argType="string" />
     </fragment>
 
 </navigation>

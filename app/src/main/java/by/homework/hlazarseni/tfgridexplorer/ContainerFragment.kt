@@ -9,11 +9,10 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import by.homework.hlazarseni.tfgridexplorer.databinding.ContainerFragmentBinding
 
-class ContainerFragment: Fragment() {
+class ContainerFragment : Fragment() {
 
     private var _binding: ContainerFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
-
 
 
     override fun onCreateView(
@@ -31,14 +30,14 @@ class ContainerFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       with(binding){
-           val nestedController =
-               (childFragmentManager
-                   .findFragmentById(R.id.page_container) as NavHostFragment)
-                   .navController
+        with(binding) {
+            val nestedController =
+                (childFragmentManager
+                    .findFragmentById(R.id.page_container) as NavHostFragment)
+                    .navController
 
-           fragmentsNavigation.setupWithNavController(nestedController)
-       }
+            fragmentsNavigation.setupWithNavController(nestedController)
+        }
     }
 
     override fun onDestroyView() {

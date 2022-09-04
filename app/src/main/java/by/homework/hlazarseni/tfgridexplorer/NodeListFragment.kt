@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +24,17 @@ class NodeListFragment : Fragment() {
             onNodeClicked = {
                 findNavController().navigate(
                     NodeListFragmentDirections.toNodeDetailFragment(
-                        it.uptime
+                        it.uptime,
+                        it.total_resources.cru,
+                        it.used_resources.cru,
+                        it.total_resources.sru,
+                        it.used_resources.sru,
+                        it.total_resources.hru,
+                        it.used_resources.hru,
+                        it.total_resources.mru,
+                        it.used_resources.mru,
+                        it.nodeId,
+                        it.farmId
                     )
                 )
             },
@@ -34,7 +43,7 @@ class NodeListFragment : Fragment() {
     }
 
     private var isLoading = false
-    private var currentPage = 0
+    private var currentPage = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -66,7 +75,7 @@ class NodeListFragment : Fragment() {
                     }
 
                     override fun onQueryTextChange(query: String): Boolean {
-                        val list = currentNodes.filter { it.nodeId.contains(query) }.map {
+                        val list = currentNodes.filter { it.nodeId == (query) }.map {
                             PagingData.Item(it)
                         }
                         adapter.submitList(list)
@@ -80,7 +89,7 @@ class NodeListFragment : Fragment() {
 
             swipeRefreshList.setOnRefreshListener {
                 adapter.submitList(emptyList())
-                currentPage = 0
+                currentPage = 1
 
                 executeRequest {
                     swipeRefreshList.isRefreshing = false
@@ -95,7 +104,6 @@ class NodeListFragment : Fragment() {
             recyclerviewList.addPaginationListener(linearLayoutManager, COUNT_TO_LOAD) {
                 executeRequest()
             }
-
         }
     }
 
@@ -108,7 +116,6 @@ class NodeListFragment : Fragment() {
         onRequestFinished: () -> Unit = {}
     ) {
         if (isLoading) return
-
         isLoading = true
 
         val finishRequest = {
@@ -118,21 +125,19 @@ class NodeListFragment : Fragment() {
 
         val size = currentPage * PAGE
         GridProxyService.api
-            .getNodes(size, PAGE)
+            .getNodes(size, currentPage)
             .enqueue(object : Callback<List<Node>> {
                 override fun onResponse(
                     call: Call<List<Node>>,
                     response: Response<List<Node>>
                 ) {
                     if (response.isSuccessful) {
-
                         val newList = adapter.currentList
                             .dropLastWhile { it == PagingData.Loading }
                             .plus(response.body()?.map { PagingData.Item(it) }.orEmpty())
                             .plus(PagingData.Loading)
                         adapter.submitList(newList)
                         currentPage++
-
                     } else {
                         handleException(HttpException(response))
                     }
@@ -157,5 +162,17 @@ class NodeListFragment : Fragment() {
     private fun handleException(e: Throwable) {
         Toast.makeText(requireContext(), e.message ?: ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
     }
-
 }
+
+//    private fun loadData(){
+//        if (isLoading) return
+//        isLoading = true
+//
+//        load(lastNode, PAGE){items ->
+//            lastNode = items.last()
+//            val recentItems = adapter.currentList.filterIsInstance<PagingData.Item<Node>>()
+//            val newItems = recentItems + items.map { PagingData.Item.(it) } + PagingData.Loading
+//            adapter.submitList(newItems)
+//            isLoading = false
+//        }
+//    }

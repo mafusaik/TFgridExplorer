@@ -8,10 +8,10 @@ interface GridProxy {
 
     @GET("nodes")
     fun getNodes(
-        @Query("size") size: Int,
+        @Query("limit") limit: Int,
         @Query("page") page: Int
     ): Call<List<Node>>
 
     @GET("stats")
-    fun getStats(): Call<Node>
+    fun getStats(): Call<Stats>
 }

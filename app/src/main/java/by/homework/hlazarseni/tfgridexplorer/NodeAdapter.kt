@@ -1,8 +1,6 @@
 package by.homework.hlazarseni.tfgridexplorer
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -42,7 +40,7 @@ class NodeAdapter(
                     binding = ItemLoadingBinding.inflate(layoutInflater, parent, false)
                 )
             }
-            TYPE_ERROR ->{
+            TYPE_ERROR -> {
                 ErrorViewHolder(
                     binding = ItemErrorBinding.inflate(layoutInflater, parent, false),
                     onRepeatClicked = onRepeatClicked
@@ -59,8 +57,8 @@ class NodeAdapter(
                 checkNotNull(holder as NodeViewHolder) { "incorrect viewholder $item" }
                 holder.bind(item.data)
             }
-            PagingData.Loading -> { }
-            PagingData.Error -> { }
+            PagingData.Loading -> {}
+            PagingData.Error -> {}
 
         }
     }
@@ -101,7 +99,6 @@ class NodeViewHolder(
             nodeId.text = item.nodeId
             farmId.text = item.farmId
             statusId.text = item.status
-            // country.text = item.country
 
             root.setOnClickListener {
                 onNodeClicked(item)
@@ -115,7 +112,7 @@ class LoadingViewHolder(binding: ItemLoadingBinding) : RecyclerView.ViewHolder(b
 class ErrorViewHolder(
     binding: ItemErrorBinding,
     onRepeatClicked: () -> Unit
-) : RecyclerView.ViewHolder(binding.root){
+) : RecyclerView.ViewHolder(binding.root) {
 
     init {
         binding.errorButton.setOnClickListener {
@@ -123,3 +120,19 @@ class ErrorViewHolder(
         }
     }
 }
+
+
+//fun load(lastNode: PagingData<Node>, itemsToLoad: Int): PagingData<List<Node>>{
+//    return List<Node>(itemsToLoad){
+//        lastNode
+//    }
+//}
+//
+//fun load(lastNode: PagingData<Node>, itemsToLoad: Int, action:(PagingData<List<Node>>) -> Unit) {
+//    Handler(Looper.getMainLooper())
+//        .postDelayed(
+//            {
+//                action(load(lastNode, itemsToLoad))
+//            }, 500
+//        )
+//}
