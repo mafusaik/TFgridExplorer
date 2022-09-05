@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.services
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

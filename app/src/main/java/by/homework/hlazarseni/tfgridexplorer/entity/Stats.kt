@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.entity
 
 data class Stats(
     val nodes: String,

@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,7 +9,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import by.homework.hlazarseni.tfgridexplorer.*
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
+import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
+import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
 import retrofit2.*
 
 

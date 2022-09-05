@@ -1,5 +1,7 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.services
 
+import by.homework.hlazarseni.tfgridexplorer.Node
+import by.homework.hlazarseni.tfgridexplorer.entity.Stats
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query

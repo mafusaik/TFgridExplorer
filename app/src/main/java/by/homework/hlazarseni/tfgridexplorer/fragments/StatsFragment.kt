@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import by.homework.hlazarseni.tfgridexplorer.databinding.StatsFragmentBinding
+import by.homework.hlazarseni.tfgridexplorer.entity.Stats
+import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
 import retrofit2.*
 
 class StatsFragment : Fragment() {

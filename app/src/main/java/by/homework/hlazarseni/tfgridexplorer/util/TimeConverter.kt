@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.util
 
 import kotlin.math.floor
 

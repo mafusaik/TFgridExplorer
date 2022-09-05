@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import by.homework.hlazarseni.tfgridexplorer.R
+import by.homework.hlazarseni.tfgridexplorer.util.TimeConverter
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
 import coil.load
 

@@ -6,9 +6,13 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import by.homework.hlazarseni.tfgridexplorer.adapter.ErrorViewHolder
+import by.homework.hlazarseni.tfgridexplorer.adapter.LoadingViewHolder
+import by.homework.hlazarseni.tfgridexplorer.adapter.NodeViewHolder
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemErrorBinding
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemLoadingBinding
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemNodeBinding
+import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
 
 class NodeAdapter(
     context: Context,
@@ -85,38 +89,6 @@ class NodeAdapter(
                 val newUser = newItem as? PagingData.Item
                 return oldUser?.data == newUser?.data
             }
-        }
-    }
-}
-
-class NodeViewHolder(
-    private val binding: ItemNodeBinding,
-    private val onNodeClicked: (Node) -> Unit
-) : RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(item: Node) {
-        with(binding) {
-            nodeId.text = item.nodeId
-            farmId.text = item.farmId
-            statusId.text = item.status
-
-            root.setOnClickListener {
-                onNodeClicked(item)
-            }
-        }
-    }
-}
-
-class LoadingViewHolder(binding: ItemLoadingBinding) : RecyclerView.ViewHolder(binding.root)
-
-class ErrorViewHolder(
-    binding: ItemErrorBinding,
-    onRepeatClicked: () -> Unit
-) : RecyclerView.ViewHolder(binding.root) {
-
-    init {
-        binding.errorButton.setOnClickListener {
-            onRepeatClicked()
         }
     }
 }

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/node_list"
-        android:name="by.homework.hlazarseni.tfgridexplorer.NodeListFragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.fragments.NodeListFragment"
         tools:layout="@layout/node_list_fragment">
 
         <action
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/node_detail_fragment"
-        android:name="by.homework.hlazarseni.tfgridexplorer.NodeDetailFragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.fragments.NodeDetailFragment"
         tools:layout="@layout/node_detail_fragment">
 
         <argument
