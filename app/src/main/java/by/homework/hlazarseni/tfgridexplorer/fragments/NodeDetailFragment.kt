@@ -5,11 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.setupWithNavController
 import by.homework.hlazarseni.tfgridexplorer.R
-import by.homework.hlazarseni.tfgridexplorer.util.TimeConverter
+import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_HRU
+import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_MRU
+import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_SRU
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
+import by.homework.hlazarseni.tfgridexplorer.model.DetailViewModel
+import by.homework.hlazarseni.tfgridexplorer.util.TimeConverter.timeToString
 import coil.load
 
 
@@ -19,6 +27,13 @@ class NodeDetailFragment : Fragment() {
 
     private val args by navArgs<NodeDetailFragmentArgs>()
 
+    private val viewModel by viewModels<DetailViewModel> {
+        viewModelFactory {
+            initializer {
+                DetailViewModel(args.node)
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,21 +51,18 @@ class NodeDetailFragment : Fragment() {
 
 
         with(binding) {
-            toolbarDetail.setNavigationOnClickListener {
-                findNavController().navigateUp()
-
-            }
+            toolbarDetail.setupWithNavController(findNavController())
 
             detailImage.load(R.drawable.ic_fordetailnode)
 
-            val totalCru = args.totalResourcesCru.toInt()
-            val usedCru = args.usedResourcesCru.toInt()
-            val totalSru = (args.totalResourcesSru / 1000000000).toDouble()
-            val usedSru = (args.usedResourcesSru / 1000000000).toDouble()
-            val totalHru = (args.totalResourcesHru / 1000000000).toDouble()
-            val usedHru = (args.usedResourcesHru / 1000000000).toDouble()
-            val totalMru = (args.totalResourcesMru / 1000000).toDouble()
-            val usedMru = (args.usedResourcesMru / 1000000).toDouble()
+            val totalCru = args.node.totalResources.cru.toInt()
+            val usedCru = args.node.usedResources.cru.toInt()
+            val totalSru = (args.node.totalResources.sru / CONVERTER_SRU).toDouble()
+            val usedSru = (args.node.usedResources.sru / CONVERTER_SRU).toDouble()
+            val totalHru = (args.node.totalResources.hru / CONVERTER_HRU).toDouble()
+            val usedHru = (args.node.usedResources.hru / CONVERTER_HRU).toDouble()
+            val totalMru = (args.node.totalResources.mru / CONVERTER_MRU).toDouble()
+            val usedMru = (args.node.usedResources.mru / CONVERTER_MRU).toDouble()
 
             progressCru.max = totalCru
             progressCru.progress = usedCru
@@ -66,17 +78,15 @@ class NodeDetailFragment : Fragment() {
             percentHruText.text = calculatePercent(usedHru, totalHru)
             percentMruText.text = calculatePercent(usedMru, totalMru)
 
-            val upTime = TimeConverter().timeToString(args.uptime.toLong())
+            val upTime = timeToString(args.node.uptime.toLong())
             uptimeTextView.text = upTime
 
-            idTextView.text = String.format("ID: %4s", args.nodeId)
-            farmIdTextView.text = String.format("Farm ID: %4s", args.nodeId)
-            cruTextView.text = "CPU Resource Unit: $totalCru GB"
-            sruTextView.text = "Disk Resource Unit (SSD): $totalSru GB"
-            hruTextView.text = "Disk Resource Unit (HDD): $totalHru GB"
-            mruTextView.text = "Memory Resource Unit: $totalMru GB"
-
-
+            idTextView.text = String.format(getString(R.string.id), args.node.nodeId)
+            farmIdTextView.text = String.format(getString(R.string.farm_id), args.node.farmId)
+            cruTextView.text = String.format(getString(R.string.cpu_resource), totalCru)
+            sruTextView.text = String.format(getString(R.string.sru_resource), totalSru)
+            hruTextView.text = String.format(getString(R.string.hru_resource), totalHru)
+            mruTextView.text = String.format(getString(R.string.mru_resource), totalMru)
         }
 
     }
@@ -87,8 +97,17 @@ class NodeDetailFragment : Fragment() {
     }
 
     private fun calculatePercent(used: Double, total: Double): String {
-        val value = used / total * 100
-        val result = String.format("%.2f", value)
-        return "$result%"
+        //пока как заглушка для ошибок
+        if (used==0.0&&total==0.0){
+            return "0.00%"
+        }else if (total==0.0)
+            return "0.00%"
+        return try {
+            val value = used / total * 100
+            val result = String.format("%.2f", value)
+            "$result%"
+        }catch (e:RuntimeException){
+            "0.00%"
+        }
     }
 }

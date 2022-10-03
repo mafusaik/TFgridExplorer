@@ -7,19 +7,39 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
+import by.homework.hlazarseni.tfgridexplorer.adapter.NodeAdapter
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
+import by.homework.hlazarseni.tfgridexplorer.entity.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
+import by.homework.hlazarseni.tfgridexplorer.model.NodeListViewModel
 import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
-import retrofit2.*
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
 
 
 class NodeListFragment : Fragment() {
     private var _binding: NodeListFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
-    private val currentNodes = mutableListOf<Node>()
+
+//    private val viewModel by inject<NodeListViewModel>()
+
+    private val viewModel by viewModels<NodeListViewModel> {
+        viewModelFactory {
+            initializer {
+                NodeListViewModel(GridProxyService)
+            }
+        }
+    }
 
     private val adapter by lazy {
         NodeAdapter(
@@ -27,26 +47,13 @@ class NodeListFragment : Fragment() {
             onNodeClicked = {
                 findNavController().navigate(
                     NodeListFragmentDirections.toNodeDetailFragment(
-                        it.uptime,
-                        it.total_resources.cru,
-                        it.used_resources.cru,
-                        it.total_resources.sru,
-                        it.used_resources.sru,
-                        it.total_resources.hru,
-                        it.used_resources.hru,
-                        it.total_resources.mru,
-                        it.used_resources.mru,
-                        it.nodeId,
-                        it.farmId
+                        DetailNode(it)
                     )
                 )
             },
             onRepeatClicked = {}
         )
     }
-
-    private var isLoading = false
-    private var currentPage = 1
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,8 +70,6 @@ class NodeListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        executeRequest()
-
         with(binding) {
 
             toolbarList
@@ -73,15 +78,10 @@ class NodeListFragment : Fragment() {
                 .actionView
                 .let { it as SearchView }
                 .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String): Boolean {
-                        return false
-                    }
+                    override fun onQueryTextSubmit(query: String): Boolean = false
 
                     override fun onQueryTextChange(query: String): Boolean {
-                        val list = currentNodes.filter { it.nodeId == (query) }.map {
-                            PagingData.Item(it)
-                        }
-                        adapter.submitList(list)
+                        viewModel.onQueryChanged(query)
                         return true
                     }
                 })
@@ -91,23 +91,32 @@ class NodeListFragment : Fragment() {
             }
 
             swipeRefreshList.setOnRefreshListener {
-                adapter.submitList(emptyList())
-                currentPage = 1
-
-                executeRequest {
-                    swipeRefreshList.isRefreshing = false
-                }
+                viewModel.onRefreshed()
             }
-            val linearLayoutManager = LinearLayoutManager(
-                view.context, LinearLayoutManager.VERTICAL, false
-            )
-            recyclerviewList.adapter = adapter
+//            val linearLayoutManager = LinearLayoutManager(
+//                view.context, LinearLayoutManager.VERTICAL, false
+//            )
+            val linearLayoutManager = LinearLayoutManager(requireContext())
             recyclerviewList.layoutManager = linearLayoutManager
+            recyclerviewList.adapter = adapter
             recyclerviewList.addVerticalGaps()
             recyclerviewList.addPaginationListener(linearLayoutManager, COUNT_TO_LOAD) {
-                executeRequest()
+                viewModel.onLoadMore()
             }
         }
+        viewModel
+            .dataFlow
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { binding.swipeRefreshList.isRefreshing = false }
+            .onEach { listNode ->
+                adapter.submitList(
+                    listNode.map {
+                        PagingData.Item(it)
+                    }
+                        .plus(PagingData.Loading)
+                )
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onDestroyView() {
@@ -115,50 +124,8 @@ class NodeListFragment : Fragment() {
         _binding = null
     }
 
-    private fun executeRequest(
-        onRequestFinished: () -> Unit = {}
-    ) {
-        if (isLoading) return
-        isLoading = true
-
-        val finishRequest = {
-            isLoading = false
-            onRequestFinished()
-        }
-
-        val size = currentPage * PAGE
-        GridProxyService.api
-            .getNodes(size, currentPage)
-            .enqueue(object : Callback<List<Node>> {
-                override fun onResponse(
-                    call: Call<List<Node>>,
-                    response: Response<List<Node>>
-                ) {
-                    if (response.isSuccessful) {
-                        val newList = adapter.currentList
-                            .dropLastWhile { it == PagingData.Loading }
-                            .plus(response.body()?.map { PagingData.Item(it) }.orEmpty())
-                            .plus(PagingData.Loading)
-                        adapter.submitList(newList)
-                        currentPage++
-                    } else {
-                        handleException(HttpException(response))
-                    }
-                    finishRequest()
-                }
-
-                override fun onFailure(call: Call<List<Node>>, t: Throwable) {
-                    if (!call.isCanceled) {
-                        handleException(t)
-                    }
-                    finishRequest()
-                }
-            })
-    }
-
     companion object {
-        private const val PAGE = 50
-        private const val COUNT_TO_LOAD = 15
+        private const val COUNT_TO_LOAD = 10
         private const val ERROR_MESSAGE = "unknown error"
     }
 
@@ -166,16 +133,3 @@ class NodeListFragment : Fragment() {
         Toast.makeText(requireContext(), e.message ?: ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
     }
 }
-
-//    private fun loadData(){
-//        if (isLoading) return
-//        isLoading = true
-//
-//        load(lastNode, PAGE){items ->
-//            lastNode = items.last()
-//            val recentItems = adapter.currentList.filterIsInstance<PagingData.Item<Node>>()
-//            val newItems = recentItems + items.map { PagingData.Item.(it) } + PagingData.Loading
-//            adapter.submitList(newItems)
-//            isLoading = false
-//        }
-//    }

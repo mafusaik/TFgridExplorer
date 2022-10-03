@@ -1,18 +1,18 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import by.homework.hlazarseni.tfgridexplorer.adapter.ErrorViewHolder
-import by.homework.hlazarseni.tfgridexplorer.adapter.LoadingViewHolder
-import by.homework.hlazarseni.tfgridexplorer.adapter.NodeViewHolder
+import by.homework.hlazarseni.tfgridexplorer.entity.Node
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemErrorBinding
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemLoadingBinding
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemNodeBinding
 import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
+
 
 class NodeAdapter(
     context: Context,
@@ -27,7 +27,8 @@ class NodeAdapter(
         return when (getItem(position)) {
             is PagingData.Item -> TYPE_NODE
             PagingData.Loading -> TYPE_LOADING
-            PagingData.Error -> TYPE_ERROR
+            is PagingData.Error -> TYPE_ERROR
+            else -> { TYPE_ERROR}
         }
     }
 
@@ -52,7 +53,6 @@ class NodeAdapter(
             }
             else -> error("unsupported viewtype $viewType")
         }
-
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -62,7 +62,9 @@ class NodeAdapter(
                 holder.bind(item.data)
             }
             PagingData.Loading -> {}
-            PagingData.Error -> {}
+            is PagingData.Error -> {
+              //  Toast.makeText(layoutInflater.context,"error", Toast.LENGTH_SHORT).show()
+            }
 
         }
     }

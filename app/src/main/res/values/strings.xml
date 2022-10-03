@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">TFgridExplorer</string>
+    <string name="id">ID: %4s</string>
+    <string name="farm_id">Farm ID: %4s</string>
+    <string name="cpu_resource">CPU Resource Unit: %3d CPU</string>
+    <string name="sru_resource">Disk Resource Unit (SSD): %.2f GB</string>
+    <string name="hru_resource">Disk Resource Unit (HDD): %.2f TB</string>
+    <string name="mru_resource">Memory Resource Unit: %.2f TB</string>
+
 </resources>

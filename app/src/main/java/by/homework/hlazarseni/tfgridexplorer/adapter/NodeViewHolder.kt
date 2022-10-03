@@ -1,7 +1,7 @@
 package by.homework.hlazarseni.tfgridexplorer.adapter
 
 import androidx.recyclerview.widget.RecyclerView
-import by.homework.hlazarseni.tfgridexplorer.Node
+import by.homework.hlazarseni.tfgridexplorer.entity.Node
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemNodeBinding
 
 class NodeViewHolder(

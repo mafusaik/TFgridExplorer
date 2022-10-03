@@ -1,5 +1,8 @@
-package by.homework.hlazarseni.tfgridexplorer
+package by.homework.hlazarseni.tfgridexplorer.entity
 
+import androidx.room.Entity
+
+//@Entity
 data class Node(
     val nodeId: String,
     val farmId: String,
@@ -8,18 +11,4 @@ data class Node(
     val country: String,
     val total_resources: TotalRes,
     val used_resources: UsedRes
-)
-
-data class TotalRes(
-    val cru: Long,
-    val sru: Long,
-    val hru: Long,
-    val mru: Long
-)
-
-data class UsedRes(
-    val cru: Long,
-    val sru: Long,
-    val hru: Long,
-    val mru: Long
 )

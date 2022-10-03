@@ -1,19 +1,25 @@
 package by.homework.hlazarseni.tfgridexplorer.services
 
-import by.homework.hlazarseni.tfgridexplorer.Node
+import by.homework.hlazarseni.tfgridexplorer.entity.Node
+import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
 import by.homework.hlazarseni.tfgridexplorer.entity.Stats
 import retrofit2.Call
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface GridProxy {
 
-    @GET("nodes")
-    fun getNodes(
-        @Query("limit") limit: Int,
-        @Query("page") page: Int
-    ): Call<List<Node>>
 
     @GET("stats")
     fun getStats(): Call<Stats>
+
+    @GET("nodes")
+    suspend fun getNodes(
+        @Query("page") page: Int
+    ): List<Node>
+
+    @GET("stats")
+    suspend fun getStats2(): Stats
 }

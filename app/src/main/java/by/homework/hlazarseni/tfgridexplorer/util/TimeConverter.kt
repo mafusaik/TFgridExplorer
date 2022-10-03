@@ -3,7 +3,7 @@ package by.homework.hlazarseni.tfgridexplorer.util
 import kotlin.math.floor
 
 
-class TimeConverter {
+object TimeConverter {
 
     private val YEAR_SEC = 31536000.0
     private val MONTH_SEC = 2628000.0
@@ -29,14 +29,19 @@ class TimeConverter {
 
         val values = priorityMap.keys
 
-        val firstPeriodName = values.elementAt(0)
-        val secondPeriodName = values.elementAt(1)
+        return if (values.size > 1) {
+            val firstPeriodName = values.elementAt(0)
+            val secondPeriodName = values.elementAt(1)
+            val firstPeriod = priorityMap[firstPeriodName]
+            val secondPeriod = priorityMap[secondPeriodName]
 
-        val firstPeriod = priorityMap[firstPeriodName]
-        val secondPeriod = priorityMap[secondPeriodName]
+            "Up Time $firstPeriod $firstPeriodName, $secondPeriod $secondPeriodName"
+        } else {
+            val firstPeriodName = values.elementAt(0)
+            val firstPeriod = priorityMap[firstPeriodName]
 
-
-        return "Up Time $firstPeriod $firstPeriodName, $secondPeriod $secondPeriodName"
+            "Up Time $firstPeriod $firstPeriodName"
+        }
 
     }
 
