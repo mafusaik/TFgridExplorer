@@ -3,45 +3,40 @@ package by.homework.hlazarseni.tfgridexplorer.model
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.homework.hlazarseni.tfgridexplorer.entity.DetailNode
-import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
+import by.homework.hlazarseni.tfgridexplorer.entity.Node
 import by.homework.hlazarseni.tfgridexplorer.lce.Lce
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
+import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
+import kotlinx.coroutines.flow.*
 
-class DetailViewModel(private val node: DetailNode): ViewModel() {
 
-    private val _lceFlow = MutableStateFlow<Lce<DetailNode>>(
-       Lce.Loading
+class DetailViewModel(
+    private val currentNode: DetailNode,
+    private val gridProxy: GridProxyService
+) :
+    ViewModel() {
+
+    private val _lceFlow = MutableStateFlow<Lce<Node>>(
+        Lce.Loading
     )
 
-        fun onButtonClicked() {
-        viewModelScope.launch {
-            _lceFlow.tryEmit(Lce.Loading)
-            delay(1000)
-            _lceFlow.tryEmit(Lce.Content(node))
-        }
-    }
-
-    val lceState = flow {
-        val lce = runCatching {
-          //  dataSource.getData()
+    val dataFlow = flow {
+        val state = kotlin.runCatching {
+            gridProxy.api.getNode(currentNode.nodeId.toInt())
         }
             .fold(
                 onSuccess = {
-                   PagingData.Item(it)
+                    _lceFlow.value = Lce.Content(it)
+                    Lce.Content(it)
                 },
                 onFailure = {
-                   PagingData.Error(it)
+                    Lce.Error(it)
                 }
             )
-        emit(lce)
-    }.stateIn(
-        viewModelScope,
-        SharingStarted.Eagerly,
-        initialValue = Lce.Loading
-    )
+        emit(state)
+    }
+        .shareIn(
+            scope = viewModelScope,
+            started = SharingStarted.Eagerly,
+            replay = 1
+        )
 }

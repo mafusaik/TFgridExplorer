@@ -17,11 +17,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
 import by.homework.hlazarseni.tfgridexplorer.adapter.NodeAdapter
+
+import by.homework.hlazarseni.tfgridexplorer.database.TFgridExplorerApplication
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.entity.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
 import by.homework.hlazarseni.tfgridexplorer.model.NodeListViewModel
 import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
+
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -31,12 +34,15 @@ class NodeListFragment : Fragment() {
     private var _binding: NodeListFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-//    private val viewModel by inject<NodeListViewModel>()
+  //  private val viewModel by inject<NodeListViewModel>()
 
     private val viewModel by viewModels<NodeListViewModel> {
         viewModelFactory {
             initializer {
-                NodeListViewModel(GridProxyService)
+                NodeListViewModel(
+                    GridProxyService,
+                   // requireContext().nodeDatabase
+                )
             }
         }
     }

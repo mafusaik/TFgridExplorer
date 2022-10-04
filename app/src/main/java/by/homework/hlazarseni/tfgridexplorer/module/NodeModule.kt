@@ -23,7 +23,8 @@ val nodeModule = module {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-//    single { get<Retrofit>().create<GridProxy>() }
+    single { get<Retrofit>().create<GridProxy>() }
+
 //    single { (counter: Int) -> MyClass(get(), get(), counter) }
 //    singleOf(::MyClass)
 //    factoryOf(::MyClass)

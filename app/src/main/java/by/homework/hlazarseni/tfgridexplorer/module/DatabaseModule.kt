@@ -1,6 +1,7 @@
-package by.homework.hlazarseni.tfgridexplorer.task4
+package by.homework.hlazarseni.tfgridexplorer.module
 
 import androidx.room.Room
+
 
 import org.koin.dsl.module
 
