@@ -7,23 +7,18 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
 import by.homework.hlazarseni.tfgridexplorer.adapter.NodeAdapter
 
-import by.homework.hlazarseni.tfgridexplorer.database.TFgridExplorerApplication
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.entity.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
-import by.homework.hlazarseni.tfgridexplorer.model.NodeListViewModel
-import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
+import by.homework.hlazarseni.tfgridexplorer.viewModel.NodeListViewModel
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -34,18 +29,19 @@ class NodeListFragment : Fragment() {
     private var _binding: NodeListFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-  //  private val viewModel by inject<NodeListViewModel>()
+    private val viewModel by inject<NodeListViewModel>()
 
-    private val viewModel by viewModels<NodeListViewModel> {
-        viewModelFactory {
-            initializer {
-                NodeListViewModel(
-                    GridProxyService,
-                   // requireContext().nodeDatabase
-                )
-            }
-        }
-    }
+//    private val viewModel by viewModels<NodeListViewModel> {
+//        viewModelFactory {
+//            initializer {
+//                NodeListViewModel(
+//                    NodeDatabase.getDatabase(requireContext()),
+//                    NodeRepository(GridProxyService.api)
+//                   // requireContext().nodeDatabase
+//                )
+//            }
+//        }
+//    }
 
     private val adapter by lazy {
         NodeAdapter(

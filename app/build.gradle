@@ -51,6 +51,8 @@ dependencies {
     implementation "androidx.room:room-runtime:2.4.3"
     implementation "androidx.room:room-ktx:2.4.3"
 
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1"
+
     def retrofit_version = "2.9.0"
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"

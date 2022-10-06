@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer.model
+package by.homework.hlazarseni.tfgridexplorer.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

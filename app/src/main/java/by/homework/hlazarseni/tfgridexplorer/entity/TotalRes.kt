@@ -3,7 +3,7 @@ package by.homework.hlazarseni.tfgridexplorer.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 
-//@Entity
+@Entity
 data class TotalRes(
     @ColumnInfo(name = "total_cru")
     val cru: Long,

@@ -18,16 +18,12 @@ import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_HRU
 import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_MRU
 import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_SRU
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
-import by.homework.hlazarseni.tfgridexplorer.entity.Node
 import by.homework.hlazarseni.tfgridexplorer.lce.Lce
-import by.homework.hlazarseni.tfgridexplorer.model.DetailViewModel
-import by.homework.hlazarseni.tfgridexplorer.model.NodeListViewModel
 import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
+import by.homework.hlazarseni.tfgridexplorer.viewModel.DetailViewModel
 import by.homework.hlazarseni.tfgridexplorer.util.TimeConverter.timeToString
 import coil.load
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
@@ -39,7 +35,7 @@ class NodeDetailFragment : Fragment() {
 
     private val args by navArgs<NodeDetailFragmentArgs>()
 
-  //  private val viewModel by inject<DetailViewModel>()
+   // private val viewModel by inject<DetailViewModel>()
 
     private val viewModel by viewModels<DetailViewModel> {
         viewModelFactory {
