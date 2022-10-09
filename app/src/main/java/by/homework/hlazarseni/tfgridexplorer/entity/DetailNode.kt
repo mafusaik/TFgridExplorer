@@ -12,5 +12,4 @@ class DetailNode(node: Node) : Serializable {
     val country: String = node.country
     val totalResources: TotalRes = node.total_resources
     val usedResources: UsedRes = node.used_resources
-
 }

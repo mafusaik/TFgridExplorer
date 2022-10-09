@@ -7,18 +7,26 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
 import by.homework.hlazarseni.tfgridexplorer.adapter.NodeAdapter
+import by.homework.hlazarseni.tfgridexplorer.database.NodeDatabase
+import by.homework.hlazarseni.tfgridexplorer.database.NodeRepository
+import by.homework.hlazarseni.tfgridexplorer.database.getDatabase
 
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.entity.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.entity.PagingData
+import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
 import by.homework.hlazarseni.tfgridexplorer.viewModel.NodeListViewModel
+import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -35,8 +43,7 @@ class NodeListFragment : Fragment() {
 //        viewModelFactory {
 //            initializer {
 //                NodeListViewModel(
-//                    NodeDatabase.getDatabase(requireContext()),
-//                    NodeRepository(GridProxyService.api)
+//                    NodeRepository(GridProxyService.api, getDatabase(requireContext()))
 //                   // requireContext().nodeDatabase
 //                )
 //            }
@@ -106,19 +113,24 @@ class NodeListFragment : Fragment() {
                 viewModel.onLoadMore()
             }
         }
-        viewModel
-            .dataFlow
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .onEach { binding.swipeRefreshList.isRefreshing = false }
-            .onEach { listNode ->
-                adapter.submitList(
-                    listNode.map {
-                        PagingData.Item(it)
-                    }
-                        .plus(PagingData.Loading)
-                )
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        try {
+            viewModel
+                .dataFlow
+                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+                .onEach { binding.swipeRefreshList.isRefreshing = false }
+                .onEach { listNode ->
+                    adapter.submitList(
+                        listNode.map {
+                            PagingData.Item(it)
+                        }
+                            .plus(PagingData.Loading)
+                    )
+                }
+                .launchIn(viewLifecycleOwner.lifecycleScope)
+        } catch (e: Error) {
+            //  viewModel.onRefreshed()
+            handleException(e)
+        }
     }
 
     override fun onDestroyView() {
@@ -131,7 +143,7 @@ class NodeListFragment : Fragment() {
         private const val ERROR_MESSAGE = "unknown error"
     }
 
-    private fun handleException(e: Throwable) {
+    private fun handleException(e: Error) {
         Toast.makeText(requireContext(), e.message ?: ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
     }
 }

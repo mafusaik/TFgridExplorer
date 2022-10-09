@@ -33,3 +33,15 @@ abstract class NodeDatabase : RoomDatabase() {
 //        }
 //    }
 }
+private lateinit var INSTANCE: NodeDatabase
+
+fun getDatabase(context: Context): NodeDatabase {
+    synchronized(NodeDatabase::class.java) {
+        if (!::INSTANCE.isInitialized) {
+            INSTANCE = Room.databaseBuilder(context.applicationContext,
+                NodeDatabase::class.java,
+                "node-database").build()
+        }
+    }
+    return INSTANCE
+}

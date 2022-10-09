@@ -16,7 +16,8 @@ class TFgridExplorerApplication : Application() {
                 apiModule,
                 databaseModule,
                 repositoryModule,
-                viewModelModule
+                viewModelModule,
+              //  detailViewModelModule
             )
         }
     }

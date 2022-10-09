@@ -17,16 +17,15 @@ import by.homework.hlazarseni.tfgridexplorer.R
 import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_HRU
 import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_MRU
 import by.homework.hlazarseni.tfgridexplorer.constants.DbConstants.CONVERTER_SRU
+import by.homework.hlazarseni.tfgridexplorer.database.getDatabase
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.lce.Lce
-import by.homework.hlazarseni.tfgridexplorer.services.GridProxyService
 import by.homework.hlazarseni.tfgridexplorer.viewModel.DetailViewModel
 import by.homework.hlazarseni.tfgridexplorer.util.TimeConverter.timeToString
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
 
 
 class NodeDetailFragment : Fragment() {
@@ -35,12 +34,17 @@ class NodeDetailFragment : Fragment() {
 
     private val args by navArgs<NodeDetailFragmentArgs>()
 
-   // private val viewModel by inject<DetailViewModel>()
+//    private val viewModel by inject<DetailViewModel>()
 
     private val viewModel by viewModels<DetailViewModel> {
         viewModelFactory {
             initializer {
-                DetailViewModel(args.node, GridProxyService)
+                DetailViewModel(
+                    args.node,
+                   // GridProxyService
+                    getDatabase(requireContext())
+               //NodeRepository(GridProxyService.api, getDatabase(requireContext()))
+                )
             }
         }
     }
@@ -61,7 +65,7 @@ class NodeDetailFragment : Fragment() {
 
         with(binding) {
 
-            viewModel.dataFlow
+            viewModel.dataDetailFlow
                 .onEach {
                     when (it) {
                         is Lce.Loading -> {
