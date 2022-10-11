@@ -10,4 +10,8 @@
         android:icon="@drawable/ic_baseline_computer_24"
         android:title="Nodes" />
 
+    <item
+        android:id="@+id/favorites_node"
+        android:icon="@drawable/ic_baseline_favorites"
+        android:title="Favorites" />
 </menu>

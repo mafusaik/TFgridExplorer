@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/page_navigation"
     app:startDestination="@id/navigation_stats">
 
     <include app:graph="@navigation/navigation_stats" />
     <include app:graph="@navigation/navigation_nodes" />
 
+    <fragment
+        android:id="@+id/favorites_node"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeFragment"
+        tools:layout="@layout/favorites_node_fragment" />
 </navigation>

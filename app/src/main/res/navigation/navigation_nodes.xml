@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/node_list"
-        android:name="by.homework.hlazarseni.tfgridexplorer.fragments.NodeListFragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.list.NodeListFragment"
         tools:layout="@layout/node_list_fragment">
 
         <action
@@ -17,12 +17,17 @@
 
     <fragment
         android:id="@+id/node_detail_fragment"
-        android:name="by.homework.hlazarseni.tfgridexplorer.fragments.NodeDetailFragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.NodeDetailFragment"
         tools:layout="@layout/node_detail_fragment">
 
         <argument
             android:name="node"
-            app:argType="by.homework.hlazarseni.tfgridexplorer.entity.DetailNode" />
+            app:argType="by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode" />
     </fragment>
+
+<!--    <fragment-->
+<!--        android:id="@+id/favorites_node"-->
+<!--        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeFragment"-->
+<!--        tools:layout="@layout/favorites_node_fragment" />-->
 
 </navigation>

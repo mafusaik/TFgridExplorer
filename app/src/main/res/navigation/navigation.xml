@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/container_fragment"
-        android:name="by.homework.hlazarseni.tfgridexplorer.fragments.ContainerFragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.ContainerFragment"
         tools:layout="@layout/container_fragment" />
 
 </navigation>

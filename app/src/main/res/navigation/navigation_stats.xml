@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/stats"
-        android:name="by.homework.hlazarseni.tfgridexplorer.fragments.StatsFragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.stats.StatsFragment"
         tools:layout="@layout/stats_fragment" />
 
 </navigation>
