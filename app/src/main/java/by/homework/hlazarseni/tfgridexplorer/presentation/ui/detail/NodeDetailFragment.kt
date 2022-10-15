@@ -6,27 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.initializer
-import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import by.homework.hlazarseni.tfgridexplorer.R
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DbConstants.CONVERTER_HRU
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DbConstants.CONVERTER_MRU
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DbConstants.CONVERTER_SRU
-import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
-import by.homework.hlazarseni.tfgridexplorer.data.database.getDatabase
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DetailConverterConstants.CONVERTER_HRU
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DetailConverterConstants.CONVERTER_MRU
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DetailConverterConstants.CONVERTER_SRU
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
-import by.homework.hlazarseni.tfgridexplorer.data.api.GridProxyService
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.util.TimeConverter.timeToString
 import coil.load
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import org.koin.android.ext.android.inject
+import org.koin.core.parameter.parametersOf
 
 
 class NodeDetailFragment : Fragment() {
@@ -35,18 +31,18 @@ class NodeDetailFragment : Fragment() {
 
     private val args by navArgs<NodeDetailFragmentArgs>()
 
-//    private val viewModel by inject<DetailViewModel>()
+    private val viewModel by inject<DetailViewModel> { parametersOf(args.node) }
 
-    private val viewModel by viewModels<DetailViewModel> {
-        viewModelFactory {
-            initializer {
-                DetailViewModel(
-                    args.node,
-               NodeRepositoryImpl(GridProxyService.api, getDatabase(requireContext()))
-                )
-            }
-        }
-    }
+//    private val viewModel by viewModels<DetailViewModel> {
+//        viewModelFactory {
+//            initializer {
+//                DetailViewModel(
+//                    args.node,
+//               NodeRepositoryImpl(GridProxyService.api, getDatabase(requireContext()))
+//                )
+//            }
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -103,6 +99,8 @@ class NodeDetailFragment : Fragment() {
 
                             idTextView.text =
                                 String.format(getString(R.string.id), args.node.nodeId)
+                            // String.format(requireContext().getString(R.string.id2,args))
+
                             farmIdTextView.text =
                                 String.format(getString(R.string.farm_id), args.node.farmId)
                             cruTextView.text =

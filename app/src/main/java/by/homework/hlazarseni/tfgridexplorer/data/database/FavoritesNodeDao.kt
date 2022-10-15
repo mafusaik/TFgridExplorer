@@ -3,18 +3,20 @@ package by.homework.hlazarseni.tfgridexplorer.data.database
 import androidx.room.*
 import androidx.room.OnConflictStrategy.REPLACE
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface NodeDao {
+interface FavoritesNodeDao {
     @Query("SELECT * from node")
-    suspend fun getNodes(): List<Node>
+    fun getFavoritesNodes(): Flow<List<Node>>
 
     @Query("SELECT * from node WHERE nodeId = :id")
-    suspend fun getNode(id: Int): Node
+    suspend fun getFavoritesNode(id: Int): Node
+
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertNodes(nodes: List<Node>)
+    fun insertFavoritesNode(node: Node)
 
-    @Insert(onConflict = REPLACE)
-    suspend fun insertNode(node: Node)
+    @Delete
+    suspend fun deleteFavoritesNode(node: Node)
 }

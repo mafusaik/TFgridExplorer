@@ -18,9 +18,5 @@ class MainActivity : AppCompatActivity(R.layout.activity_main)
                 .addToBackStack(null)
                 .commit()
         }
-//        supportFragmentManager
-//            .addOnBackStackChangedListener {
-//              containerFragmentView.isVisible = supportFragmentManager.backStackEntryCount == 0
-//            }
     }
 }

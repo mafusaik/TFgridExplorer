@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
@@ -13,11 +14,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
+import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.adapter.NodeAdapter
 
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
-import by.homework.hlazarseni.tfgridexplorer.domain.model.PagingData
+import by.homework.hlazarseni.tfgridexplorer.presentation.model.PagingData
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeViewModel
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import kotlinx.coroutines.flow.catch
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -30,16 +35,13 @@ class NodeListFragment : Fragment() {
     private val binding get() = requireNotNull(_binding)
 
     private val viewModel by inject<NodeListViewModel>()
+    private val favoritesViewModel by inject<FavoritesNodeViewModel>()
 
     private val adapter by lazy {
         NodeAdapter(
             context = requireContext(),
             onNodeClicked = {
-                findNavController().navigate(
-                    NodeListFragmentDirections.toNodeDetailFragment(
-                        DetailNode(it)
-                    )
-                )
+                showConfirmationDialog(it)
             },
             onRepeatClicked = {}
         )
@@ -83,9 +85,7 @@ class NodeListFragment : Fragment() {
             swipeRefreshList.setOnRefreshListener {
                 viewModel.onRefreshed()
             }
-//            val linearLayoutManager = LinearLayoutManager(
-//                view.context, LinearLayoutManager.VERTICAL, false
-//            )
+
             val linearLayoutManager = LinearLayoutManager(requireContext())
             recyclerviewList.layoutManager = linearLayoutManager
             recyclerviewList.adapter = adapter
@@ -94,24 +94,19 @@ class NodeListFragment : Fragment() {
                 viewModel.onLoadMore()
             }
         }
-        try {
-            viewModel
-                .dataFlow
-                .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-                .onEach { binding.swipeRefreshList.isRefreshing = false }
-                .onEach { listNode ->
-                    adapter.submitList(
-                        listNode.map {
-                            PagingData.Item(it)
-                        }
-                            .plus(PagingData.Loading)
-                    )
-                }
-                .launchIn(viewLifecycleOwner.lifecycleScope)
-        } catch (e: Exception) {
-           // handleException(e)
-            viewModel.onRefreshed()
-        }
+        viewModel
+            .dataFlow
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
+            .onEach { binding.swipeRefreshList.isRefreshing = false }
+            .onEach { listNode ->
+                adapter.submitList(
+                    listNode.map {
+                        PagingData.Item(it)
+                    }
+                        .plus(PagingData.Loading)
+                )
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     override fun onDestroyView() {
@@ -124,7 +119,25 @@ class NodeListFragment : Fragment() {
         private const val ERROR_MESSAGE = "unknown error"
     }
 
-    private fun handleException(e: Error) {
+    private fun showConfirmationDialog(it: Node) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(android.R.string.dialog_alert_title))
+            .setMessage(getString(R.string.choice_question))
+            .setCancelable(false)
+            .setNegativeButton(getString(R.string.details)) { _, _ ->
+                findNavController().navigate(
+                    NodeListFragmentDirections.toNodeDetailFragment(
+                        DetailNode(it)
+                    )
+                )
+            }
+            .setPositiveButton(getString(R.string.favorites)) { _, _ ->
+                favoritesViewModel.insertNode(it)
+            }
+            .show()
+    }
+
+    private fun handleException(e: IllegalStateException) {
         Toast.makeText(requireContext(), e.message ?: ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
     }
 }

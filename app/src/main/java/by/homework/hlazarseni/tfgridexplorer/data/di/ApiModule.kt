@@ -16,5 +16,4 @@ val apiModule = module {
             .build()
     }
     single { get<Retrofit>().create<GridProxy>() }
-
 }

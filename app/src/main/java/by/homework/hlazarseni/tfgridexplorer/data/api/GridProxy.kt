@@ -1,7 +1,7 @@
 package by.homework.hlazarseni.tfgridexplorer.data.api
 
 import by.homework.hlazarseni.tfgridexplorer.data.model.NodeDTO
-import by.homework.hlazarseni.tfgridexplorer.domain.model.Stats
+import by.homework.hlazarseni.tfgridexplorer.data.model.Stats
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path

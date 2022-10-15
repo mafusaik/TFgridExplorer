@@ -15,5 +15,4 @@ val databaseModule = module {
             .build()
     }
     single { get<NodeDatabase>().nodesDao }
-
 }

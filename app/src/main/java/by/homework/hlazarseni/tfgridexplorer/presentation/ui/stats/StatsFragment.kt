@@ -20,16 +20,6 @@ class StatsFragment : Fragment() {
 
     private val viewModel by inject<StatsViewModel>()
 
-//    private val viewModel by viewModels<StatsViewModel> {
-//        viewModelFactory {
-//            initializer {
-//                StatsViewModel(
-//                    NodeRepositoryImpl(GridProxyService.api, getDatabase(requireContext()))
-//                )
-//            }
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

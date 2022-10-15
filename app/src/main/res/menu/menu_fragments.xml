@@ -11,7 +11,7 @@
         android:title="Nodes" />
 
     <item
-        android:id="@+id/favorites_node"
+        android:id="@+id/navigation_favorites"
         android:icon="@drawable/ic_baseline_favorites"
         android:title="Favorites" />
 </menu>

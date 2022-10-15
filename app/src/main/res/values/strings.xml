@@ -7,8 +7,12 @@
     <string name="hru_resource">Disk Resource Unit (HDD): %.2f TB</string>
     <string name="mru_resource">Memory Resource Unit: %.2f TB</string>
 
+    <string name="choice_question">Select an action</string>
     <string name="delete_question">Are you sure you want to delete?</string>
+    <string name="details">View details</string>
+    <string name="favorites">Add to favorites</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="REMOVE_MESSAGE">Favorites node removed</string>
 
 </resources>

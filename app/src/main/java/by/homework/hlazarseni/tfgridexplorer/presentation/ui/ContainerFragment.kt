@@ -29,10 +29,6 @@ class ContainerFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        if(savedInstanceState == null){
-            super.onViewCreated(view, savedInstanceState)
-        }
-
 
         with(binding) {
             val nestedController =

@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer.domain.model
+package by.homework.hlazarseni.tfgridexplorer.presentation.model
 
 open class PagingData<out T> {
 

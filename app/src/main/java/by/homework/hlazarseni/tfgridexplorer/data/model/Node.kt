@@ -1,9 +1,10 @@
-package by.homework.hlazarseni.tfgridexplorer.domain.model
+package by.homework.hlazarseni.tfgridexplorer.data.model
 
 import androidx.annotation.NonNull
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.google.gson.annotations.SerializedName
 
 @Entity
 data class Node(
@@ -15,7 +16,9 @@ data class Node(
     val uptime: String,
     val country: String,
     @Embedded
-    val total_resources: TotalRes,
+    @SerializedName("total_resources")
+    val totalResources: TotalRes,
     @Embedded
-    val used_resources: UsedRes
+    @SerializedName("used_resources")
+    val usedResources: UsedRes
 )

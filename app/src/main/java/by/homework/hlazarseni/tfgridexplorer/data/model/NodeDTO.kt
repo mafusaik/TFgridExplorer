@@ -1,5 +1,7 @@
 package by.homework.hlazarseni.tfgridexplorer.data.model
 
+import com.google.gson.annotations.SerializedName
+
 
 data class NodeDTO(
     val nodeId: String,
@@ -7,6 +9,8 @@ data class NodeDTO(
     val status: String,
     val uptime: String,
     val country: String,
-    val total_resources: TotalResDTO,
-    val used_resources: UsedResDTO
+    @SerializedName("total_resources")
+    val totalResources: TotalResDTO,
+    @SerializedName("used_resources")
+    val usedResources: UsedResDTO
 )

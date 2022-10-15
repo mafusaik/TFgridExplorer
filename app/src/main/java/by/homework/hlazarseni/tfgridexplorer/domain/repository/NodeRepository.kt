@@ -1,7 +1,8 @@
 package by.homework.hlazarseni.tfgridexplorer.domain.repository
 
-import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
-import by.homework.hlazarseni.tfgridexplorer.domain.model.Stats
+import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.data.model.Stats
+import kotlinx.coroutines.flow.Flow
 
 
 interface NodeRepository {
@@ -18,5 +19,11 @@ interface NodeRepository {
 
     suspend fun clearDB()
 
-    suspend fun getStats():Result<Stats>
+    suspend fun getStats(): Result<Stats>
+
+    suspend fun addFavoritesNodeDB(node: Node)
+
+    fun getFavoritesNodesDB(): Flow<List<Node>>
+
+    suspend fun deleteFavoritesNode(node: Node)
 }

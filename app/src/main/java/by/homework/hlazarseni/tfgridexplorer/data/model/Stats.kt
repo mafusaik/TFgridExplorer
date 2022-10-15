@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer.domain.model
+package by.homework.hlazarseni.tfgridexplorer.data.model
 
 data class Stats(
     val nodes: String,

@@ -2,13 +2,13 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation_nodes"
-    app:startDestination="@id/node_list">
+    android:id="@+id/navigation_favorites"
+    app:startDestination="@id/favorites_node">
 
     <fragment
-        android:id="@+id/node_list"
-        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.list.NodeListFragment"
-        tools:layout="@layout/node_list_fragment">
+        android:id="@+id/favorites_node"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeFragment"
+        tools:layout="@layout/favorites_node_fragment">
 
         <action
             android:id="@+id/to_node_detail_fragment"

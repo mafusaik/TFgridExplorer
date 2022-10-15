@@ -8,6 +8,4 @@ import org.koin.dsl.module
 
 val listViewModelModule= module {
     viewModelOf(::NodeListViewModel)
-
-   // viewModel { (id: DetailNode) -> DetailViewModel(id, get()) }
 }

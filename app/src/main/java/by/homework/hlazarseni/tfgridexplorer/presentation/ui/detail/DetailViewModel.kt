@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
-import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
+import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
 import kotlinx.coroutines.flow.*
 

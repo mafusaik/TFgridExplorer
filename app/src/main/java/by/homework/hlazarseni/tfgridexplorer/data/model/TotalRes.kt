@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer.domain.model
+package by.homework.hlazarseni.tfgridexplorer.data.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
