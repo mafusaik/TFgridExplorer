@@ -15,7 +15,7 @@ interface FavoritesNodeDao {
 
 
     @Insert(onConflict = REPLACE)
-    fun insertFavoritesNode(node: Node)
+    suspend fun insertFavoritesNode(node: Node)
 
     @Delete
     suspend fun deleteFavoritesNode(node: Node)

@@ -33,17 +33,6 @@ class NodeDetailFragment : Fragment() {
 
     private val viewModel by inject<DetailViewModel> { parametersOf(args.node) }
 
-//    private val viewModel by viewModels<DetailViewModel> {
-//        viewModelFactory {
-//            initializer {
-//                DetailViewModel(
-//                    args.node,
-//               NodeRepositoryImpl(GridProxyService.api, getDatabase(requireContext()))
-//                )
-//            }
-//        }
-//    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -98,19 +87,30 @@ class NodeDetailFragment : Fragment() {
                             uptimeTextView.text = upTime
 
                             idTextView.text =
-                                String.format(getString(R.string.id), args.node.nodeId)
-                            // String.format(requireContext().getString(R.string.id2,args))
-
+                                getString(R.string.id, args.node.nodeId)
                             farmIdTextView.text =
-                                String.format(getString(R.string.farm_id), args.node.farmId)
+                                getString(R.string.farm_id, args.node.farmId)
                             cruTextView.text =
-                                String.format(getString(R.string.cpu_resource), totalCru)
+                                getString(R.string.cpu_resource, totalCru)
                             sruTextView.text =
-                                String.format(getString(R.string.sru_resource), totalSru)
+                                getString(R.string.sru_resource, totalSru)
                             hruTextView.text =
-                                String.format(getString(R.string.hru_resource), totalHru)
+                                getString(R.string.hru_resource, totalHru)
                             mruTextView.text =
-                                String.format(getString(R.string.mru_resource), totalMru)
+                                getString(R.string.mru_resource, totalMru)
+                            countryTextView.text =
+                                getString(R.string.country, args.node.country)
+
+                            val nodeLatitude = viewModel.getLatitude()
+                            val nodeLongitude = viewModel.getLongitude()
+                            buttonToMap.setOnClickListener {
+                                val action = NodeDetailFragmentDirections.toMapFragment(
+                                    args.node,
+                                    nodeLatitude,
+                                    nodeLongitude
+                                )
+                                findNavController().navigate(action)
+                            }
 
                             progress.isVisible = false
                         }

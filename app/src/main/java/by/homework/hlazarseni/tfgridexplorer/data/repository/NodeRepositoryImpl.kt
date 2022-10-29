@@ -2,19 +2,19 @@ package by.homework.hlazarseni.tfgridexplorer.data.repository
 
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.data.api.GridProxy
-import by.homework.hlazarseni.tfgridexplorer.data.database.FavoritesNodeDatabase
+import by.homework.hlazarseni.tfgridexplorer.data.database.FavoritesNodeDao
+import by.homework.hlazarseni.tfgridexplorer.data.database.NodeDao
 import by.homework.hlazarseni.tfgridexplorer.data.mapper.toDomain
 import by.homework.hlazarseni.tfgridexplorer.data.mapper.toDomainModels
-import by.homework.hlazarseni.tfgridexplorer.data.database.NodeDatabase
 import by.homework.hlazarseni.tfgridexplorer.domain.repository.NodeRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class NodeRepositoryImpl(
     private val gridProxy: GridProxy,
-    private val nodeDatabase: NodeDatabase,
-    private val favoritesNodeDatabase: FavoritesNodeDatabase
-):NodeRepository {
+    private val nodesDao: NodeDao,
+    private val favoritesNodeDao: FavoritesNodeDao
+) : NodeRepository {
 
     override suspend fun getNodes(page: Int) = withContext(Dispatchers.IO) {
         runCatching {
@@ -22,44 +22,45 @@ class NodeRepositoryImpl(
         }
     }
 
-    override  suspend fun getNode(id: Int) = withContext(Dispatchers.IO) {
+    override suspend fun getNode(id: Int) = withContext(Dispatchers.IO) {
         runCatching { gridProxy.getNode(id).toDomain() }
     }
 
-    override  suspend fun getNodeDB(id: Int) = withContext(Dispatchers.IO) {
-         runCatching {
-        nodeDatabase.nodesDao.getNode(id)
-          }
+    override suspend fun getNodeDB(id: Int) = withContext(Dispatchers.IO) {
+        runCatching {
+            nodesDao.getNode(id)
+        }
     }
 
-    override  suspend fun getNodesDB() = withContext(Dispatchers.IO) {
-          runCatching {
-        nodeDatabase.nodesDao.getNodes()
-          }
+    override suspend fun getNodesDB() = withContext(Dispatchers.IO) {
+        runCatching {
+            nodesDao.getNodes()
+        }
     }
 
     override suspend fun insertNodesDB(nodes: List<Node>) = withContext(Dispatchers.IO) {
-        nodeDatabase.nodesDao.insertNodes(nodes)
+        nodesDao.insertNodes(nodes)
     }
 
     override suspend fun clearDB() {
-        nodeDatabase.nodesDao.insertNodes(emptyList())
+       nodesDao.insertNodes(emptyList())
     }
 
-    override  suspend fun getStats() = withContext(Dispatchers.IO) {
+    override suspend fun getStats() = withContext(Dispatchers.IO) {
         runCatching {
             gridProxy.getStats()
         }
     }
 
-    override suspend fun addFavoritesNodeDB(node:Node)= withContext(Dispatchers.IO) {
-        favoritesNodeDatabase.favoritesNodeDao.insertFavoritesNode(node)
+    override suspend fun addFavoritesNodeDB(node: Node) = withContext(Dispatchers.IO) {
+        favoritesNodeDao.insertFavoritesNode(node)
     }
 
     override fun getFavoritesNodesDB() =
-        favoritesNodeDatabase.favoritesNodeDao.getFavoritesNodes()
+        favoritesNodeDao.getFavoritesNodes()
 
-    override suspend fun deleteFavoritesNode(node: Node)= withContext(Dispatchers.IO) {
-        favoritesNodeDatabase.favoritesNodeDao.deleteFavoritesNode(node)
+
+    override suspend fun deleteFavoritesNode(node: Node) = withContext(Dispatchers.IO) {
+        favoritesNodeDao.deleteFavoritesNode(node)
     }
 }

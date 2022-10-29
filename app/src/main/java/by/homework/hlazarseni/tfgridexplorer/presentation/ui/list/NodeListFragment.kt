@@ -6,12 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
@@ -22,12 +23,10 @@ import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.PagingData
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.flow.catch
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.android.ext.android.inject
-import kotlin.Exception
 
 
 class NodeListFragment : Fragment() {
@@ -78,9 +77,7 @@ class NodeListFragment : Fragment() {
                     }
                 })
 
-            toolbarList.setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
+            toolbarList.setupWithNavController(findNavController())
 
             swipeRefreshList.setOnRefreshListener {
                 viewModel.onRefreshed()
@@ -90,7 +87,7 @@ class NodeListFragment : Fragment() {
             recyclerviewList.layoutManager = linearLayoutManager
             recyclerviewList.adapter = adapter
             recyclerviewList.addVerticalGaps()
-            recyclerviewList.addPaginationListener(linearLayoutManager, COUNT_TO_LOAD) {
+            recyclerviewList.addPaginationListener(linearLayoutManager, R.string.count_to_load) {
                 viewModel.onLoadMore()
             }
         }
@@ -114,11 +111,6 @@ class NodeListFragment : Fragment() {
         _binding = null
     }
 
-    companion object {
-        private const val COUNT_TO_LOAD = 10
-        private const val ERROR_MESSAGE = "unknown error"
-    }
-
     private fun showConfirmationDialog(it: Node) {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(getString(android.R.string.dialog_alert_title))
@@ -132,12 +124,12 @@ class NodeListFragment : Fragment() {
                 )
             }
             .setPositiveButton(getString(R.string.favorites)) { _, _ ->
-                favoritesViewModel.insertNode(it)
+                favoritesViewModel.addingNode(it)
             }
             .show()
     }
 
     private fun handleException(e: IllegalStateException) {
-        Toast.makeText(requireContext(), e.message ?: ERROR_MESSAGE, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), e.message ?: getString(R.string.error_message), Toast.LENGTH_SHORT).show()
     }
 }

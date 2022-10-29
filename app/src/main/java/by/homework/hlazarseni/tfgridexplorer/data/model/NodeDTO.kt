@@ -9,6 +9,7 @@ data class NodeDTO(
     val status: String,
     val uptime: String,
     val country: String,
+    val id: String,
     @SerializedName("total_resources")
     val totalResources: TotalResDTO,
     @SerializedName("used_resources")

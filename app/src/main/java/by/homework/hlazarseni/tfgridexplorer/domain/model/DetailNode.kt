@@ -13,6 +13,7 @@ class DetailNode(node: Node) : Serializable {
     val farmId: String = node.farmId
     val status: String = node.status
     val country: String = node.country
+    val id: String = node.id
     val totalResources: TotalRes = node.totalResources
     val usedResources: UsedRes = node.usedResources
 }

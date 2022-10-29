@@ -15,6 +15,7 @@ data class Node(
     val status: String,
     val uptime: String,
     val country: String,
+    val id: String,
     @Embedded
     @SerializedName("total_resources")
     val totalResources: TotalRes,

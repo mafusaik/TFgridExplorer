@@ -17,11 +17,13 @@
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_loading.xml" value="0.3625" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_node.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_stats.xml" value="0.365625" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/map_fragment.xml" value="0.2625" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/node_detail_fragment.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/node_list_fragment.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/stats_fragment.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/menu/menu_fragments.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/menu/menu_toolbar.xml" value="0.3625" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1995" />
       </map>
     </option>
   </component>

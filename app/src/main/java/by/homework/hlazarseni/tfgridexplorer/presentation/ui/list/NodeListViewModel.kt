@@ -3,6 +3,7 @@ package by.homework.hlazarseni.tfgridexplorer.presentation.ui.list
 import androidx.lifecycle.*
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
@@ -58,35 +59,36 @@ class NodeListViewModel(
             }
             .map {
                 nodeRepositoryImpl.getNodes(currentPage)
-                    .onSuccess {
-                        nodeRepositoryImpl.clearDB()
-                        nodeRepositoryImpl.insertNodesDB(it)
-                    }
-                    .onFailure {  }
                     .fold(
                         onSuccess = { it },
-                        onFailure = {
-                          emptyList()
-                        }
+                        onFailure = { emptyList() }
                     )
             }
+
             .onEach {
                 isLoading = false
+                nodeRepositoryImpl.insertNodesDB(it)
             }
             .runningReduce { items, loadedItems ->
                 items.union(loadedItems).toList()
             }
             .onStart {
-                val listDB = nodeRepositoryImpl.getNodesDB()
-                    .fold(
-                        onSuccess = { it },
-                        onFailure = { emptyList() }
-                    )
-                val state = listDB.ifEmpty {
-                    emptyList()
-                }
-                emit(state)
+                loadDBFlow
             }
+    }
+
+    private fun errorFlow(throwable: Throwable) {
+        errorFlow
+            .map { throwable }
+    }
+
+    val loadDBFlow = flow {
+        val state = nodeRepositoryImpl.getNodesDB()
+            .fold(
+                onSuccess = { Lce.Content(it) },
+                onFailure = { Lce.Error(it) }
+            )
+        emit(state)
     }
 
     fun onLoadMore() {
@@ -103,7 +105,7 @@ class NodeListViewModel(
         _queryFlow.value = query
     }
 
-   private enum class LoadItemsType {
+    private enum class LoadItemsType {
         REFRESH, LOAD_MORE
     }
 }

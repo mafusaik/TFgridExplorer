@@ -18,6 +18,7 @@ fun NodeDTO.toDomain(): Node {
         status = status,
         uptime = uptime,
         country = country,
+        id = id,
         totalResources = totalResources.toDomain(),
         usedResources = usedResources.toDomain()
     )

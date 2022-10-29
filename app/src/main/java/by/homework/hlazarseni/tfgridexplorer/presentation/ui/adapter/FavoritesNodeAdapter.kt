@@ -18,7 +18,6 @@ class FavoritesNodeAdapter(
 
     private val layoutInflater = LayoutInflater.from(context)
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return NodeViewHolder(
             binding = ItemNodeBinding.inflate(layoutInflater, parent, false),
@@ -33,8 +32,6 @@ class FavoritesNodeAdapter(
         }
         checkNotNull(holder as NodeViewHolder) { "incorrect viewholder $currentNode" }
         holder.bind(currentNode)
-
-
     }
 
     companion object {
@@ -44,14 +41,14 @@ class FavoritesNodeAdapter(
                 oldItem: Node,
                 newItem: Node
             ): Boolean {
-                return oldItem == newItem
+                return oldItem.nodeId == newItem.nodeId && oldItem.farmId == newItem.farmId
             }
 
             override fun areContentsTheSame(
                 oldItem: Node,
                 newItem: Node
             ): Boolean {
-                return oldItem.nodeId == newItem.nodeId && oldItem.farmId == newItem.farmId
+                return oldItem == newItem
             }
         }
     }

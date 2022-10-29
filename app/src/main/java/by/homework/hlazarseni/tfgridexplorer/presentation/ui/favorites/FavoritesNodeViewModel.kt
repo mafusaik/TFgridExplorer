@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.*
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -34,8 +33,7 @@ class FavoritesNodeViewModel(
                 replay = 1
             )
 
-
-   private fun favoritesNodeFlow(): Flow<List<Node>> {
+    private fun favoritesNodeFlow(): Flow<List<Node>> {
         return dataFlow
             .onStart {
                 emit(Unit)
@@ -44,9 +42,8 @@ class FavoritesNodeViewModel(
                 nodeRepositoryImpl.getFavoritesNodesDB()
             }
             .runningReduce { items, loadedItems ->
-                items + loadedItems
+                items.union(loadedItems).toList()
             }
-
             .shareIn(
                 viewModelScope,
                 SharingStarted.Eagerly,
@@ -54,13 +51,13 @@ class FavoritesNodeViewModel(
             )
     }
 
-    fun deleteNode(node: Node) {
+    fun deletingNode(node: Node) {
         viewModelScope.launch {
             nodeRepositoryImpl.deleteFavoritesNode(node)
         }
     }
 
-    fun insertNode(node: Node) {
+    fun addingNode(node: Node) {
         viewModelScope.launch {
             nodeRepositoryImpl.addFavoritesNodeDB(node)
         }

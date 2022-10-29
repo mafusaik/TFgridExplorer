@@ -10,6 +10,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,11 +20,12 @@ import by.homework.hlazarseni.tfgridexplorer.databinding.FavoritesNodeFragmentBi
 import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.adapter.FavoritesNodeAdapter
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.list.NodeListFragmentDirections
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.ext.android.inject
 
 class FavoritesNodeFragment : Fragment() {
@@ -78,12 +80,14 @@ class FavoritesNodeFragment : Fragment() {
                     }
                 })
 
-            toolbarList.setNavigationOnClickListener {
-                findNavController().navigateUp()
-            }
+            toolbarList.setupWithNavController(findNavController())
 
             swipeRefreshFavorites.setOnRefreshListener {
-                updateFavoritesList()
+                runBlocking {
+                    launch {
+                        updateFavoritesList()
+                    }.join()
+                }
                 swipeRefreshFavorites.isRefreshing = false
             }
 
@@ -115,6 +119,7 @@ class FavoritesNodeFragment : Fragment() {
             }
         }
         updateFavoritesList()
+
     }
 
     override fun onDestroyView() {
@@ -143,14 +148,16 @@ class FavoritesNodeFragment : Fragment() {
                 adapter.notifyItemChanged(position)
             }
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                favoritesViewModel.deleteNode(node)
-                updateFavoritesList()
+                favoritesViewModel.deletingNode(node)
+               // adapter.notifyItemRemoved(position)
+                 updateFavoritesList()
                 Snackbar.make(
                     view,
-                    getString(R.string.REMOVE_MESSAGE),
+                    getString(R.string.remove_message),
                     Snackbar.LENGTH_SHORT
                 ).show()
             }
             .show()
+
     }
 }

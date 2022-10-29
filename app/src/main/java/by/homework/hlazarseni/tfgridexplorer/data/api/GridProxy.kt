@@ -2,13 +2,11 @@ package by.homework.hlazarseni.tfgridexplorer.data.api
 
 import by.homework.hlazarseni.tfgridexplorer.data.model.NodeDTO
 import by.homework.hlazarseni.tfgridexplorer.data.model.Stats
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface GridProxy {
-
 
     @GET("nodes")
     suspend fun getNodes(
@@ -22,9 +20,4 @@ interface GridProxy {
 
     @GET("stats")
    suspend fun getStats(): Stats
-
-    @GET("{id}")
-    suspend fun getStats2(
-        @Path("id") id: String
-    ): Stats
 }

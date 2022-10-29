@@ -23,6 +23,28 @@
         <argument
             android:name="node"
             app:argType="by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode" />
+
+        <action
+            android:id="@+id/to_map_fragment"
+            app:destination="@id/map_view" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/map_view"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.map.GoogleMapFragment"
+        tools:layout="@layout/map_fragment">
+
+        <argument
+            android:name="node"
+            app:argType="by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode" />
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+
+        <argument
+            android:name="longitude"
+            app:argType="string" />
+
     </fragment>
 
 </navigation>
