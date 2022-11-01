@@ -20,7 +20,8 @@ class TFgridExplorerApplication : Application() {
                 repositoryModule,
                 viewModelModule,
                 favoritesDatabaseModule,
-                graphModule
+                graphModule,
+                serviceModule
             )
         }
     }

@@ -59,7 +59,6 @@ class NodeRepositoryImpl(
     override fun getFavoritesNodesDB() =
         favoritesNodeDao.getFavoritesNodes()
 
-
     override suspend fun deleteFavoritesNode(node: Node) = withContext(Dispatchers.IO) {
         favoritesNodeDao.deleteFavoritesNode(node)
     }

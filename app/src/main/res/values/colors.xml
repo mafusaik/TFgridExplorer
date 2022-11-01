@@ -9,4 +9,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="icon_background">#fbf2fc </color>
     <color name="ic_launcher_background">#FFFFFF</color>
+
+    <color name="color_system_bar">#2E2E2E</color>
 </resources>

@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,15 +24,15 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class NodeListFragment : Fragment() {
     private var _binding: NodeListFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-    private val viewModel by inject<NodeListViewModel>()
-    private val favoritesViewModel by inject<FavoritesNodeViewModel>()
+    private val listViewModel by viewModel<NodeListViewModel>()
+    private val favoritesViewModel by viewModel<FavoritesNodeViewModel>()
 
     private val adapter by lazy {
         NodeAdapter(
@@ -72,7 +70,7 @@ class NodeListFragment : Fragment() {
                     override fun onQueryTextSubmit(query: String): Boolean = false
 
                     override fun onQueryTextChange(query: String): Boolean {
-                        viewModel.onQueryChanged(query)
+                        listViewModel.onQueryChanged(query)
                         return true
                     }
                 })
@@ -80,7 +78,7 @@ class NodeListFragment : Fragment() {
             toolbarList.setupWithNavController(findNavController())
 
             swipeRefreshList.setOnRefreshListener {
-                viewModel.onRefreshed()
+                listViewModel.onRefreshed()
             }
 
             val linearLayoutManager = LinearLayoutManager(requireContext())
@@ -88,10 +86,10 @@ class NodeListFragment : Fragment() {
             recyclerviewList.adapter = adapter
             recyclerviewList.addVerticalGaps()
             recyclerviewList.addPaginationListener(linearLayoutManager, R.string.count_to_load) {
-                viewModel.onLoadMore()
+                listViewModel.onLoadMore()
             }
         }
-        viewModel
+        listViewModel
             .dataFlow
             .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
             .onEach { binding.swipeRefreshList.isRefreshing = false }
@@ -127,9 +125,5 @@ class NodeListFragment : Fragment() {
                 favoritesViewModel.addingNode(it)
             }
             .show()
-    }
-
-    private fun handleException(e: IllegalStateException) {
-        Toast.makeText(requireContext(), e.message ?: getString(R.string.error_message), Toast.LENGTH_SHORT).show()
     }
 }

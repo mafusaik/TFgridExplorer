@@ -15,7 +15,8 @@ import kotlinx.coroutines.withContext
 
 class DetailViewModel(
     private val currentNode: DetailNode,
-    private val nodeRepositoryImpl: NodeRepositoryImpl
+    private val nodeRepositoryImpl: NodeRepositoryImpl,
+    private val apolloClient: ApolloClient
 ) :
     ViewModel() {
 
@@ -24,9 +25,6 @@ class DetailViewModel(
     )
 
     val dataDetailFlow = _lceFlow
-        .onStart {
-            emit(Lce.Loading)
-        }
         .map {
             nodeRepositoryImpl.getNodeDB(currentNode.nodeId.toInt())
                 .fold(
@@ -43,10 +41,6 @@ class DetailViewModel(
             started = SharingStarted.Eagerly,
             replay = 1
         )
-
-    //пока костыль для координат, потом надо весь проект перенести на это
-    private val apolloClient =
-        ApolloClient.Builder().serverUrl("https://graphql.grid.tf/graphql").build()
 
     suspend fun getLatitude() = withContext(Dispatchers.IO) {
         val response = apolloClient.query(NodeByIdQuery(currentNode.id)).execute()

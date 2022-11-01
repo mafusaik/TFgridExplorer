@@ -1,4 +1,4 @@
-package by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants
+package by.homework.hlazarseni.tfgridexplorer.presentation.ui.constants
 
  object DetailConverterConstants{
 

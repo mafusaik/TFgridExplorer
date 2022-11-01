@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import by.homework.hlazarseni.tfgridexplorer.R
 import by.homework.hlazarseni.tfgridexplorer.databinding.MapFragmentBinding
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.constants.ValueConstants
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.LocationSource
@@ -21,13 +22,10 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class GoogleMapFragment : Fragment() {
-
-    private lateinit var mMap: GoogleMap
-
 
     private val args by navArgs<GoogleMapFragmentArgs>()
 
@@ -37,7 +35,7 @@ class GoogleMapFragment : Fragment() {
     private var googleMap: GoogleMap? = null
     private var locationListener: LocationSource.OnLocationChangedListener? = null
 
-    private val mapViewModel by inject<MapViewModel>()
+    private val mapViewModel by viewModel<MapViewModel>()
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -46,9 +44,11 @@ class GoogleMapFragment : Fragment() {
 
             mapViewModel
                 .locationFlow
-                .onEach { it.set(setCurrentLocation(it)) }
-                .onEach { it.let(::moveCameraToLocation) }
-                .onEach { it.apply { addMarkerToLocation(it) } }
+                .onEach {
+                    it.set(setCurrentLocation(it))
+                    addMarkerToLocation(it)
+                    it.let(::moveCameraToLocation)
+                }
                 .launchIn(viewLifecycleOwner.lifecycleScope)
         }
     }
@@ -103,7 +103,7 @@ class GoogleMapFragment : Fragment() {
     private fun moveCameraToLocation(location: Location) {
         val currentLocation = LatLng(location.latitude, location.longitude)
         googleMap?.animateCamera(
-            CameraUpdateFactory.newLatLngZoom(currentLocation, 14f)
+            CameraUpdateFactory.newLatLngZoom(currentLocation, ValueConstants.ZOOM)
         )
     }
 

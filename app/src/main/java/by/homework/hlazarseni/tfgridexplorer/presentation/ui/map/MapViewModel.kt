@@ -5,6 +5,7 @@ import android.content.Context
 import android.location.Location
 import android.os.Looper
 import androidx.lifecycle.ViewModel
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.constants.ValueConstants
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
@@ -26,7 +27,7 @@ class MapViewModel(context: Context): ViewModel() {
         }
 
         val request = LocationRequest.create().apply {
-            interval = LOCATION_UPDATE_INTERVAL
+            interval = ValueConstants.LOCATION_UPDATE_INTERVAL
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
 
@@ -35,9 +36,5 @@ class MapViewModel(context: Context): ViewModel() {
         awaitClose {
             locationClient.removeLocationUpdates(callback)
         }
-    }
-
-    companion object {
-        private const val LOCATION_UPDATE_INTERVAL = 5000L
     }
 }

@@ -14,23 +14,19 @@ class FavoritesNodeAdapter(
     context: Context,
     private val onNodeClicked: (Node) -> Unit
 
-) : ListAdapter<Node, RecyclerView.ViewHolder>(DIFF_UTIL) {
+) : ListAdapter<Node, NodeViewHolder>(DIFF_UTIL) {
 
     private val layoutInflater = LayoutInflater.from(context)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
         return NodeViewHolder(
             binding = ItemNodeBinding.inflate(layoutInflater, parent, false),
             onNodeClicked = onNodeClicked
         )
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
         val currentNode = getItem(position)
-        holder.itemView.setOnClickListener {
-            onNodeClicked(currentNode)
-        }
-        checkNotNull(holder as NodeViewHolder) { "incorrect viewholder $currentNode" }
         holder.bind(currentNode)
     }
 

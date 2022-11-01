@@ -3,7 +3,6 @@ package by.homework.hlazarseni.tfgridexplorer.presentation.ui.list
 import androidx.lifecycle.*
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
-import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
@@ -21,6 +20,7 @@ class NodeListViewModel(
     private val _errorFlow = MutableSharedFlow<Throwable>()
     private val errorFlow = _errorFlow.asSharedFlow()
 
+    private lateinit var list: List<Node>
 
     private val loadItemsFlow = MutableSharedFlow<LoadItemsType>(
         replay = 1,
@@ -61,34 +61,26 @@ class NodeListViewModel(
                 nodeRepositoryImpl.getNodes(currentPage)
                     .fold(
                         onSuccess = { it },
-                        onFailure = { emptyList() }
+                        onFailure = { list }
                     )
             }
-
             .onEach {
                 isLoading = false
                 nodeRepositoryImpl.insertNodesDB(it)
             }
             .runningReduce { items, loadedItems ->
                 items.union(loadedItems).toList()
+            }.onStart {
+                emit(nodeRepositoryImpl.getNodesDB()
+                    .fold(
+                        onSuccess = {
+                            list = it
+                            it
+                        },
+                        onFailure = { emptyList() }
+                    )
+                )
             }
-            .onStart {
-                loadDBFlow
-            }
-    }
-
-    private fun errorFlow(throwable: Throwable) {
-        errorFlow
-            .map { throwable }
-    }
-
-    val loadDBFlow = flow {
-        val state = nodeRepositoryImpl.getNodesDB()
-            .fold(
-                onSuccess = { Lce.Content(it) },
-                onFailure = { Lce.Error(it) }
-            )
-        emit(state)
     }
 
     fun onLoadMore() {

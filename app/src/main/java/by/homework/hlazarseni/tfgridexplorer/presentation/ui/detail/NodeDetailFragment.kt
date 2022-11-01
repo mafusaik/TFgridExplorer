@@ -11,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import by.homework.hlazarseni.tfgridexplorer.R
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DetailConverterConstants.CONVERTER_HRU
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DetailConverterConstants.CONVERTER_MRU
-import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.constants.DetailConverterConstants.CONVERTER_SRU
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.constants.DetailConverterConstants.CONVERTER_HRU
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.constants.DetailConverterConstants.CONVERTER_MRU
+import by.homework.hlazarseni.tfgridexplorer.presentation.ui.constants.DetailConverterConstants.CONVERTER_SRU
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.util.TimeConverter.timeToString
@@ -21,7 +21,7 @@ import coil.load
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
 
@@ -31,7 +31,7 @@ class NodeDetailFragment : Fragment() {
 
     private val args by navArgs<NodeDetailFragmentArgs>()
 
-    private val viewModel by inject<DetailViewModel> { parametersOf(args.node) }
+    private val viewModel by viewModel<DetailViewModel> { parametersOf(args.node) }
 
     override fun onCreateView(
         inflater: LayoutInflater,

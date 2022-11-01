@@ -7,5 +7,6 @@
     <include app:graph="@navigation/navigation_stats" />
     <include app:graph="@navigation/navigation_nodes" />
     <include app:graph="@navigation/navigation_favorites" />
+    <include app:graph="@navigation/navigation_mode" />
 
 </navigation>

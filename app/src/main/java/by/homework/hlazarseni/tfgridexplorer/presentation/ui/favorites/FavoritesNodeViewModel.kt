@@ -4,54 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.*
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
-import kotlinx.coroutines.channels.BufferOverflow
-import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 class FavoritesNodeViewModel(
     private val nodeRepositoryImpl: NodeRepositoryImpl
 ) : ViewModel() {
 
-    private val _queryFlow = MutableStateFlow("")
-    private val queryFlow = _queryFlow.asSharedFlow()
+    val allFavoritesNode: LiveData<List<Node>> = nodeRepositoryImpl.getFavoritesNodesDB().asLiveData()
 
-    private val _dataFlow = MutableSharedFlow<Unit>(
-        replay = 1, onBufferOverflow = BufferOverflow.DROP_OLDEST
-    )
-    private val dataFlow = _dataFlow.asSharedFlow()
-
-    val favoritesDataFlow =
-        queryFlow
-            .combine(favoritesNodeFlow()) { query, nodes ->
-                nodes.filter { node ->
-                    node.nodeId.contains(query, ignoreCase = true)
-                }
-            }
-            .shareIn(
-                viewModelScope,
-                SharingStarted.Eagerly,
-                replay = 1
-            )
-
-    private fun favoritesNodeFlow(): Flow<List<Node>> {
-        return dataFlow
-            .onStart {
-                emit(Unit)
-            }
-            .flatMapLatest {
-                nodeRepositoryImpl.getFavoritesNodesDB()
-            }
-            .runningReduce { items, loadedItems ->
-                items.union(loadedItems).toList()
-            }
-            .shareIn(
-                viewModelScope,
-                SharingStarted.Eagerly,
-                replay = 1
-            )
-    }
-
-    fun deletingNode(node: Node) {
+   fun deletingNode(node: Node) {
         viewModelScope.launch {
             nodeRepositoryImpl.deleteFavoritesNode(node)
         }
@@ -61,9 +22,5 @@ class FavoritesNodeViewModel(
         viewModelScope.launch {
             nodeRepositoryImpl.addFavoritesNodeDB(node)
         }
-    }
-
-    fun onQueryChanged(query: String) {
-        _queryFlow.value = query
     }
 }

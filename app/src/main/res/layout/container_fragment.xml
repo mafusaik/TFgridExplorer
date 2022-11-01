@@ -19,7 +19,7 @@
         android:id="@+id/fragments_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200"
+        android:background="?attr/colorPrimary"
         app:itemTextColor="@color/black"
         app:menu="@menu/menu_fragments" />
 

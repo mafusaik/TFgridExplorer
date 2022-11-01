@@ -4,11 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.flowWithLifecycle
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -22,18 +18,14 @@ import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.adapter.FavoritesNodeAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class FavoritesNodeFragment : Fragment() {
 
     private var _binding: FavoritesNodeFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
-    private val favoritesViewModel by inject<FavoritesNodeViewModel>()
+    private val favoritesViewModel by viewModel<FavoritesNodeViewModel>()
 
     private val adapter by lazy {
         FavoritesNodeAdapter(
@@ -66,28 +58,10 @@ class FavoritesNodeFragment : Fragment() {
                 view.context, LinearLayoutManager.VERTICAL, false
             )
 
-            toolbarList
-                .menu
-                .findItem(R.id.action_search)
-                .actionView
-                .let { it as SearchView }
-                .setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String): Boolean = false
-
-                    override fun onQueryTextChange(query: String): Boolean {
-                        favoritesViewModel.onQueryChanged(query)
-                        return true
-                    }
-                })
-
             toolbarList.setupWithNavController(findNavController())
 
             swipeRefreshFavorites.setOnRefreshListener {
-                runBlocking {
-                    launch {
-                        updateFavoritesList()
-                    }.join()
-                }
+                updateFavoritesList()
                 swipeRefreshFavorites.isRefreshing = false
             }
 
@@ -119,7 +93,6 @@ class FavoritesNodeFragment : Fragment() {
             }
         }
         updateFavoritesList()
-
     }
 
     override fun onDestroyView() {
@@ -128,16 +101,12 @@ class FavoritesNodeFragment : Fragment() {
     }
 
     private fun updateFavoritesList() {
-        favoritesViewModel
-            .favoritesDataFlow
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle, Lifecycle.State.STARTED)
-            .onEach { binding.swipeRefreshFavorites.isRefreshing = false }
-            .onEach {
+        favoritesViewModel.allFavoritesNode.observe(this.viewLifecycleOwner) { items ->
+            items.let {
                 adapter.submitList(it)
             }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+        }
     }
-
 
     private fun showConfirmationDeleteDialog(view: View, node: Node, position: Int) {
         MaterialAlertDialogBuilder(requireContext())
@@ -149,8 +118,7 @@ class FavoritesNodeFragment : Fragment() {
             }
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 favoritesViewModel.deletingNode(node)
-               // adapter.notifyItemRemoved(position)
-                 updateFavoritesList()
+                updateFavoritesList()
                 Snackbar.make(
                     view,
                     getString(R.string.remove_message),
@@ -158,6 +126,5 @@ class FavoritesNodeFragment : Fragment() {
                 ).show()
             }
             .show()
-
     }
 }
