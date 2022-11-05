@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+<RelativeLayout
+    android:id="@+id/relativelayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <ImageView
+        android:id="@+id/all_nodes"
+        android:layout_width="130dp"
+        android:layout_height="200dp"
+        android:padding="35dp"
+        android:src="@drawable/ic_baseline_computer_24" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/all_nodes"
+        android:layout_alignTop="@id/all_nodes"
+        android:layout_alignEnd="@id/all_nodes"
+        android:layout_alignBottom="@id/all_nodes"
+        android:gravity="center_horizontal"
+        android:paddingVertical="10dp"
+        android:text="Nodes Online"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/nodes_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@id/all_nodes"
+        android:layout_alignTop="@id/all_nodes"
+        android:layout_alignEnd="@id/all_nodes"
+        android:layout_alignBottom="@id/all_nodes"
+        android:gravity="bottom|center"
+        android:paddingVertical="15dp"
+        android:text=""
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="1111" />
+</RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:id="@+id/all_countries"
+                android:layout_width="130dp"
+                android:layout_height="200dp"
+                android:padding="35dp"
+                android:src="@drawable/ic_baseline_earth" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/all_countries"
+                android:layout_alignTop="@id/all_countries"
+                android:layout_alignEnd="@id/all_countries"
+                android:layout_alignBottom="@id/all_countries"
+                android:gravity="center_horizontal"
+                android:paddingVertical="10dp"
+                android:text="Countries"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/countries"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/all_countries"
+                android:layout_alignTop="@id/all_countries"
+                android:layout_alignEnd="@id/all_countries"
+                android:layout_alignBottom="@id/all_countries"
+                android:gravity="bottom|center"
+                android:paddingVertical="15dp"
+                android:text=""
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="70" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativelayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
+
+            <ImageView
+                android:id="@+id/all_farms"
+                android:layout_width="130dp"
+                android:layout_height="200dp"
+                android:padding="35dp"
+                android:src="@drawable/ic_baseline_farms" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/all_farms"
+                android:layout_alignTop="@id/all_farms"
+                android:layout_alignEnd="@id/all_farms"
+                android:layout_alignBottom="@id/all_farms"
+                android:gravity="center_horizontal"
+                android:paddingVertical="10dp"
+                android:text="Farms"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/farms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@id/all_farms"
+                android:layout_alignTop="@id/all_farms"
+                android:layout_alignEnd="@id/all_farms"
+                android:layout_alignBottom="@id/all_farms"
+                android:gravity="bottom|center"
+                android:paddingVertical="15dp"
+                android:text=""
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="2222" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

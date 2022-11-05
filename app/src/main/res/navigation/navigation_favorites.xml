@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_favorites"
+    app:startDestination="@id/favorites_node">
+
+    <fragment
+        android:id="@+id/favorites_node"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeFragment"
+        tools:layout="@layout/favorites_node_fragment">
+
+        <action
+            android:id="@+id/to_node_detail_fragment"
+            app:destination="@id/node_detail_fragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/node_detail_fragment"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.NodeDetailFragment"
+        tools:layout="@layout/node_detail_fragment">
+
+        <argument
+            android:name="node"
+            app:argType="by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode" />
+
+        <action
+            android:id="@+id/to_map_fragment"
+            app:destination="@id/map_view" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/map_view"
+        android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.map.GoogleMapFragment"
+        tools:layout="@layout/map_fragment">
+
+<!--        <argument-->
+<!--            android:name="node"-->
+<!--            app:argType="by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode" />-->
+        <argument
+            android:name="latitude"
+            app:argType="string" />
+
+        <argument
+            android:name="longitude"
+            app:argType="string" />
+
+    </fragment>
+
+
+</navigation>

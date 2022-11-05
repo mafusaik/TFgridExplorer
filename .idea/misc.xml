@@ -3,18 +3,30 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.141" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/background.xml" value="0.141" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/circular_progressbar.xml" value="0.141" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/ic_baseline_analytics_24.xml" value="0.205" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.208" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/ic_baseline_computer_24.xml" value="0.141" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/ic_baseline_favorites.xml" value="0.1995" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.123" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/activity_main.xml" value="0.337037037037037" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/container_fragment.xml" value="0.337037037037037" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/favorite_node_fragment.xml" value="0.365625" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/favorites_node_fragment.xml" value="0.15052083333333333" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/fragment_night_mode.xml" value="0.36666666666666664" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_error.xml" value="0.3625" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_loading.xml" value="0.3625" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_node.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/item_stats.xml" value="0.365625" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/map_fragment.xml" value="0.2625" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/node_detail_fragment.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/node_list_fragment.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/layout/stats_fragment.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/menu/menu_fragments.xml" value="0.3614583333333333" />
         <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/menu/menu_toolbar.xml" value="0.3625" />
+        <entry key="..\:/Projects/TFgridExplorer/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1995" />
       </map>
     </option>
   </component>
