@@ -33,9 +33,9 @@ class NodeRepositoryImpl(
     }
 
     override suspend fun getNodesDB() = withContext(Dispatchers.IO) {
-        runCatching {
-            nodesDao.getNodes()
-        }
+        //   runCatching {
+        nodesDao.getNodes()
+        //   }
     }
 
     override suspend fun insertNodesDB(nodes: List<Node>) = withContext(Dispatchers.IO) {
@@ -43,7 +43,7 @@ class NodeRepositoryImpl(
     }
 
     override suspend fun clearDB() {
-       nodesDao.insertNodes(emptyList())
+        nodesDao.insertNodes(emptyList())
     }
 
     override suspend fun getStats() = withContext(Dispatchers.IO) {
@@ -61,5 +61,9 @@ class NodeRepositoryImpl(
 
     override suspend fun deleteFavoritesNode(node: Node) = withContext(Dispatchers.IO) {
         favoritesNodeDao.deleteFavoritesNode(node)
+    }
+
+    override suspend fun deleteNodes(nodes: List<Node>) = withContext(Dispatchers.IO) {
+        nodesDao.deleteNodes(nodes)
     }
 }

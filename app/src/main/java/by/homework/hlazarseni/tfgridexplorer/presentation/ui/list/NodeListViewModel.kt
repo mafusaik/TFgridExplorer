@@ -1,14 +1,18 @@
 package by.homework.hlazarseni.tfgridexplorer.presentation.ui.list
 
 import androidx.lifecycle.*
+import by.homework.hlazarseni.tfgridexplorer.data.database.NodeDatabase
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.withContext
 
 
 class NodeListViewModel(
-    private val nodeRepositoryImpl: NodeRepositoryImpl
+    private val nodeRepositoryImpl: NodeRepositoryImpl,
+    private val nodeDatabase: NodeDatabase
 ) : ViewModel() {
 
     private var isLoading = false
@@ -16,11 +20,6 @@ class NodeListViewModel(
 
     private val _queryFlow = MutableStateFlow("")
     private val queryFlow = _queryFlow.asSharedFlow()
-
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    private val errorFlow = _errorFlow.asSharedFlow()
-
-    private lateinit var list: List<Node>
 
     private val loadItemsFlow = MutableSharedFlow<LoadItemsType>(
         replay = 1,
@@ -50,37 +49,34 @@ class NodeListViewModel(
             .map { loadType ->
                 when (loadType) {
                     LoadItemsType.REFRESH -> {
-                        currentPage = 1
+                        currentPage = 0
                     }
                     LoadItemsType.LOAD_MORE -> {
                         currentPage++
                     }
                 }
             }
+            .onStart {  if (nodeRepositoryImpl.getNodes(currentPage).isSuccess) {
+                cleanDB()
+            } }
             .map {
                 nodeRepositoryImpl.getNodes(currentPage)
                     .fold(
-                        onSuccess = { it },
-                        onFailure = { list }
-                    )
-            }
-            .onEach {
-                isLoading = false
-                nodeRepositoryImpl.insertNodesDB(it)
-            }
-            .runningReduce { items, loadedItems ->
-                items.union(loadedItems).toList()
-            }.onStart {
-                emit(nodeRepositoryImpl.getNodesDB()
-                    .fold(
                         onSuccess = {
-                            list = it
+                            nodeRepositoryImpl.insertNodesDB(it)
                             it
                         },
-                        onFailure = { emptyList() }
+                        onFailure = { nodeRepositoryImpl.getNodesDB().sortedBy { it.id } }
                     )
-                )
             }
+            .onEach { isLoading = false }
+            .runningReduce { items, loadedItems ->
+                items.union(loadedItems).toList()
+            }
+    }
+
+    private suspend fun cleanDB() = withContext(Dispatchers.IO) {
+        runCatching { nodeDatabase.clearAllTables() }
     }
 
     fun onLoadMore() {

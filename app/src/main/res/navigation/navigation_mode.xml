@@ -8,6 +8,6 @@
     <fragment
         android:id="@+id/night_mode"
         android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.nightmode.NightModeFragment"
-        tools:layout="@layout/fragment_night_mode" />
+        tools:layout="@layout/night_mode_fragment" />
 
 </navigation>

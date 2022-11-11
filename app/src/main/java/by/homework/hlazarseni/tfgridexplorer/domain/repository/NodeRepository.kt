@@ -13,7 +13,7 @@ interface NodeRepository {
 
     suspend fun getNodeDB(id: Int): Result<Node>
 
-    suspend fun getNodesDB(): Result<List<Node>>
+    suspend fun getNodesDB(): List<Node>
 
     suspend fun insertNodesDB(nodes: List<Node>)
 
@@ -26,4 +26,6 @@ interface NodeRepository {
     fun getFavoritesNodesDB(): Flow<List<Node>>
 
     suspend fun deleteFavoritesNode(node: Node)
+
+    suspend fun deleteNodes(nodes: List<Node>)
 }

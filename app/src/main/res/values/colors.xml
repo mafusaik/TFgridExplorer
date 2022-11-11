@@ -10,5 +10,7 @@
     <color name="icon_background">#fbf2fc </color>
     <color name="ic_launcher_background">#FFFFFF</color>
 
+    <color name="grey">#d5ced6</color>
+
     <color name="color_system_bar">#2E2E2E</color>
 </resources>

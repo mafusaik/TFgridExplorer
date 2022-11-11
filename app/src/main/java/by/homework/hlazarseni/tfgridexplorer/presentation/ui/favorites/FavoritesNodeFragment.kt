@@ -82,7 +82,7 @@ class FavoritesNodeFragment : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
+                    val position = viewHolder.absoluteAdapterPosition
                     val currentNode = adapter.currentList[position]
                     showConfirmationDeleteDialog(view, currentNode, position)
 

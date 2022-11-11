@@ -6,7 +6,6 @@
         <item name="postSplashScreenTheme">@style/Theme.TFgridExplorer</item>
         <item name="windowSplashScreenBackground">@color/ic_launcher_background</item>
         <item name="windowSplashScreenIconBackgroundColor">@color/icon_background</item>
-
     </style>
 
     <style name="ColoredTextStyle" parent="TextAppearance.AppCompat.Medium">
@@ -34,5 +33,10 @@
     <style name="ThemeOverlay.RadioButtons" parent="ThemeOverlay.MaterialComponents">
         <item name="radioButtonStyle">@style/RadioButtonStyle</item>
     </style>
+
+    <style name="ContentTextStyle">
+        <item name="android:textColor">?colorPrimary</item>
+    </style>
+
 
 </resources>
