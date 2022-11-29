@@ -17,8 +17,6 @@ interface NodeRepository {
 
     suspend fun insertNodesDB(nodes: List<Node>)
 
-    suspend fun clearDB()
-
     suspend fun getStats(): Result<Stats>
 
     suspend fun addFavoritesNodeDB(node: Node)
@@ -28,4 +26,6 @@ interface NodeRepository {
     suspend fun deleteFavoritesNode(node: Node)
 
     suspend fun deleteNodes(nodes: List<Node>)
+
+    suspend fun cleanDB()
 }

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.homework.hlazarseni.tfgridexplorer.R
 import by.homework.hlazarseni.tfgridexplorer.addVerticalGaps
+import by.homework.hlazarseni.tfgridexplorer.data.mapper.toDomain
 import by.homework.hlazarseni.tfgridexplorer.databinding.FavoritesNodeFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
@@ -33,7 +34,7 @@ class FavoritesNodeFragment : Fragment() {
             onNodeClicked = {
                 findNavController().navigate(
                     FavoritesNodeFragmentDirections.toNodeDetailFragment(
-                        DetailNode(it)
+                        DetailNode(it.toDomain())
                     )
                 )
             }

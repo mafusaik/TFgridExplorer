@@ -5,25 +5,22 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.data.model.NodeEntity
 
 @Dao
 interface NodeDao {
-    @Query("SELECT * from node")
-    suspend fun getNodes(): List<Node>
+    @Query("SELECT * from nodeentity")
+    suspend fun getNodes(): List<NodeEntity>
 
-//    @Query("SELECT * from node ORDER BY " + " CASE WHEN nodeId = 1 THEN nodeId END ASC ")
-//    suspend fun getNodes(): List<Node>
-
-    @Query("SELECT * from node WHERE nodeId = :id")
-    suspend fun getNode(id: Int): Node
+    @Query("SELECT * from nodeentity WHERE nodeId = :id")
+    suspend fun getNode(id: Int): NodeEntity
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertNodes(nodes: List<Node>)
+    suspend fun insertNodes(nodes: List<NodeEntity>)
 
     @Insert(onConflict = REPLACE)
-    suspend fun insertNode(node: Node)
+    suspend fun insertNode(node: NodeEntity)
 
     @Delete
-    suspend fun deleteNodes(nodes: List<Node>)
+    suspend fun deleteNodes(nodes: List<NodeEntity>)
 }

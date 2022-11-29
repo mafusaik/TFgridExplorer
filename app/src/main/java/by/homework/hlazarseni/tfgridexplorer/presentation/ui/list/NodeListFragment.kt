@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
+import by.homework.hlazarseni.tfgridexplorer.data.mapper.toDomain
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.adapter.NodeAdapter
 
@@ -117,7 +118,7 @@ class NodeListFragment : Fragment() {
             .setNegativeButton(getString(R.string.details)) { _, _ ->
                 findNavController().navigate(
                     NodeListFragmentDirections.toNodeDetailFragment(
-                        DetailNode(it)
+                        DetailNode(it.toDomain())
                     )
                 )
             }

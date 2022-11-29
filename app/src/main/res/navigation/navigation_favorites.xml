@@ -34,9 +34,6 @@
         android:name="by.homework.hlazarseni.tfgridexplorer.presentation.ui.map.GoogleMapFragment"
         tools:layout="@layout/map_fragment">
 
-<!--        <argument-->
-<!--            android:name="node"-->
-<!--            app:argType="by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode" />-->
         <argument
             android:name="latitude"
             app:argType="string" />

@@ -1,19 +1,17 @@
 package by.homework.hlazarseni.tfgridexplorer.domain.model
 
 import androidx.annotation.Keep
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
-import by.homework.hlazarseni.tfgridexplorer.data.model.TotalRes
-import by.homework.hlazarseni.tfgridexplorer.data.model.UsedRes
+import by.homework.hlazarseni.tfgridexplorer.data.model.*
 import java.io.Serializable
 
 @Keep
-class DetailNode(node: Node) : Serializable {
+class DetailNode(node: NodeEntity) : Serializable {
     val uptime: String = node.uptime
     val nodeId: String = node.nodeId
     val farmId: String = node.farmId
     val status: String = node.status
     val country: String = node.country
     val id: String = node.id
-    val totalResources: TotalRes = node.totalResources
-    val usedResources: UsedRes = node.usedResources
+    val totalResources: TotalResEntity = node.totalResources
+    val usedResources: UsedResEntity = node.usedResources
 }

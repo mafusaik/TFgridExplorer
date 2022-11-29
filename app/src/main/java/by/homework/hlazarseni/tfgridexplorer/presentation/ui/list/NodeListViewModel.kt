@@ -1,18 +1,14 @@
 package by.homework.hlazarseni.tfgridexplorer.presentation.ui.list
 
 import androidx.lifecycle.*
-import by.homework.hlazarseni.tfgridexplorer.data.database.NodeDatabase
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.data.model.Node
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
-import kotlinx.coroutines.withContext
 
 
 class NodeListViewModel(
     private val nodeRepositoryImpl: NodeRepositoryImpl,
-    private val nodeDatabase: NodeDatabase
 ) : ViewModel() {
 
     private var isLoading = false
@@ -56,9 +52,11 @@ class NodeListViewModel(
                     }
                 }
             }
-            .onStart {  if (nodeRepositoryImpl.getNodes(currentPage).isSuccess) {
-                cleanDB()
-            } }
+            .onStart {
+                if (nodeRepositoryImpl.getNodes(currentPage).isSuccess) {
+                    nodeRepositoryImpl.cleanDB()
+                }
+            }
             .map {
                 nodeRepositoryImpl.getNodes(currentPage)
                     .fold(
@@ -73,10 +71,6 @@ class NodeListViewModel(
             .runningReduce { items, loadedItems ->
                 items.union(loadedItems).toList()
             }
-    }
-
-    private suspend fun cleanDB() = withContext(Dispatchers.IO) {
-        runCatching { nodeDatabase.clearAllTables() }
     }
 
     fun onLoadMore() {

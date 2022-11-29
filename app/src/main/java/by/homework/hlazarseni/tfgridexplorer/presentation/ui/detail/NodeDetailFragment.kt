@@ -19,7 +19,6 @@ import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBindi
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.util.TimeConverter.timeToString
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
