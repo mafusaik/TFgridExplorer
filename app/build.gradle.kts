@@ -3,8 +3,6 @@ plugins {
     id ("org.jetbrains.kotlin.android")
     id ("androidx.navigation.safeargs.kotlin")
     id ("kotlin-android")
-    id ("kotlin-kapt")
-    id("com.apollographql.apollo3").version("3.6.2")
 }
 
 android {
@@ -22,10 +20,6 @@ android {
         manifestPlaceholders["googleMapKey"] = googleMapKey
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    apollo {
-        packageName.set("by.homework")
     }
 
     buildFeatures {
@@ -52,18 +46,11 @@ android {
 
 dependencies {
 
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     //Koin
     implementation("io.insert-koin:koin-android:3.2.2")
-
-    //Room
-    kapt ("androidx.room:room-compiler:2.4.3")
-    implementation ("androidx.room:room-runtime:2.4.3")
-    implementation ("androidx.room:room-ktx:2.4.3")
-
-    //API
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.apollographql.apollo3:apollo-runtime:3.6.2")
 
     //Navigation
     implementation("androidx.navigation:navigation-fragment-ktx:2.5.3")

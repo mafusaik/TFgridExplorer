@@ -1,15 +1,17 @@
 package by.homework.hlazarseni.tfgridexplorer.presentation.ui.list
 
 import androidx.lifecycle.*
+import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeDatabaseRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
 
 class NodeListViewModel(
-    private val nodeRepositoryImpl: NodeRepositoryImpl,
-) : ViewModel() {
+    private val dataRepository: NodeDatabaseRepositoryImpl,
+    private val apiRepository: NodeRepositoryImpl
+    ) : ViewModel() {
 
     private var isLoading = false
     private var currentPage = 1
@@ -53,18 +55,18 @@ class NodeListViewModel(
                 }
             }
             .onStart {
-                if (nodeRepositoryImpl.getNodes(currentPage).isSuccess) {
-                    nodeRepositoryImpl.cleanDB()
+                if (apiRepository.getNodes(currentPage).isSuccess) {
+                    dataRepository.cleanDB()
                 }
             }
             .map {
-                nodeRepositoryImpl.getNodes(currentPage)
+                apiRepository.getNodes(currentPage)
                     .fold(
                         onSuccess = {
-                            nodeRepositoryImpl.insertNodesDB(it)
+                            dataRepository.insertNodesDB(it)
                             it
                         },
-                        onFailure = { nodeRepositoryImpl.getNodesDB().sortedBy { it.id } }
+                        onFailure = { dataRepository.getNodesDB().sortedBy { it.id } }
                     )
             }
             .onEach { isLoading = false }

@@ -43,7 +43,6 @@ class NodeDetailFragment : Fragment() {
             .root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -103,6 +102,7 @@ class NodeDetailFragment : Fragment() {
 
                             val nodeLatitude = viewModel.getLatitude()
                             val nodeLongitude = viewModel.getLongitude()
+
                             buttonToMap.setOnClickListener {
                                 val action = NodeDetailFragmentDirections.toMapFragment(
                                     args.node,

@@ -10,7 +10,7 @@ import by.homework.hlazarseni.tfgridexplorer.presentation.ui.nightmode.NightMode
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
 
-val viewModelModule= module {
+internal val viewModelModule= module {
     viewModelOf(::NodeListViewModel)
     viewModelOf(::StatsViewModel)
     viewModelOf(::FavoritesNodeViewModel)
