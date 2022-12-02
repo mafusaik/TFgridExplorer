@@ -13,15 +13,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.homework.hlazarseni.tfgridexplorer.*
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.data.mapper.toDomain
+import by.homework.hlazarseni.tfgridexplorer.data.model.DetailNode
+import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.adapter.NodeAdapter
-
 import by.homework.hlazarseni.tfgridexplorer.databinding.NodeListFragmentBinding
-import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.PagingData
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites.FavoritesNodeViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -117,7 +116,7 @@ class NodeListFragment : Fragment() {
             .setNegativeButton(getString(R.string.details)) { _, _ ->
                 findNavController().navigate(
                     NodeListFragmentDirections.toNodeDetailFragment(
-                        DetailNode(it)
+                        DetailNode(it.toDomain())
                     )
                 )
             }

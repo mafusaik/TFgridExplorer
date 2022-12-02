@@ -1,26 +1,23 @@
 package by.homework.hlazarseni.tfgridexplorer.presentation.ui.list
 
 import androidx.lifecycle.*
+import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeDatabaseRepositoryImpl
 import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.*
 
 
 class NodeListViewModel(
-    private val nodeRepositoryImpl: NodeRepositoryImpl
-) : ViewModel() {
+    private val dataRepository: NodeDatabaseRepositoryImpl,
+    private val apiRepository: NodeRepositoryImpl
+    ) : ViewModel() {
 
     private var isLoading = false
     private var currentPage = 1
 
     private val _queryFlow = MutableStateFlow("")
     private val queryFlow = _queryFlow.asSharedFlow()
-
-    private val _errorFlow = MutableSharedFlow<Throwable>()
-    private val errorFlow = _errorFlow.asSharedFlow()
-
-    private lateinit var list: List<Node>
 
     private val loadItemsFlow = MutableSharedFlow<LoadItemsType>(
         replay = 1,
@@ -50,36 +47,31 @@ class NodeListViewModel(
             .map { loadType ->
                 when (loadType) {
                     LoadItemsType.REFRESH -> {
-                        currentPage = 1
+                        currentPage = 0
                     }
                     LoadItemsType.LOAD_MORE -> {
                         currentPage++
                     }
                 }
             }
+            .onStart {
+                if (apiRepository.getNodes(currentPage).isSuccess) {
+                    dataRepository.cleanDB()
+                }
+            }
             .map {
-                nodeRepositoryImpl.getNodes(currentPage)
-                    .fold(
-                        onSuccess = { it },
-                        onFailure = { list }
-                    )
-            }
-            .onEach {
-                isLoading = false
-                nodeRepositoryImpl.insertNodesDB(it)
-            }
-            .runningReduce { items, loadedItems ->
-                items.union(loadedItems).toList()
-            }.onStart {
-                emit(nodeRepositoryImpl.getNodesDB()
+                apiRepository.getNodes(currentPage)
                     .fold(
                         onSuccess = {
-                            list = it
+                            dataRepository.insertNodesDB(it)
                             it
                         },
-                        onFailure = { emptyList() }
+                        onFailure = { dataRepository.getNodesDB().sortedBy { it.id } }
                     )
-                )
+            }
+            .onEach { isLoading = false }
+            .runningReduce { items, loadedItems ->
+                items.union(loadedItems).toList()
             }
     }
 

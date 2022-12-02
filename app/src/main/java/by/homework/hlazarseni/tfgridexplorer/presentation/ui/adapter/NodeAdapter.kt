@@ -7,7 +7,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemErrorBinding
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemLoadingBinding
 import by.homework.hlazarseni.tfgridexplorer.databinding.ItemNodeBinding

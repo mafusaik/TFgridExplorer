@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
-import by.homework.hlazarseni.tfgridexplorer.databinding.FragmentNightModeBinding
+import by.homework.hlazarseni.tfgridexplorer.databinding.NightModeFragmentBinding
 import by.homework.hlazarseni.tfgridexplorer.domain.model.NightMode
 import by.homework.hlazarseni.tfgridexplorer.presentation.extensions.applyHorizontalWindowInsets
 import by.homework.hlazarseni.tfgridexplorer.presentation.extensions.applyWindowInsets
@@ -15,7 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class NightModeFragment : Fragment() {
 
-    private var _binding: FragmentNightModeBinding? = null
+    private var _binding: NightModeFragmentBinding? = null
     private val binding get() = requireNotNull(_binding)
 
     private val modeViewModel by viewModel<NightModeViewModel>()
@@ -25,7 +25,7 @@ class NightModeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return FragmentNightModeBinding.inflate(inflater, container, false)
+        return NightModeFragmentBinding.inflate(inflater, container, false)
             .also { _binding = it }
             .root
     }

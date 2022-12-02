@@ -1,0 +1,8 @@
+query NodeById($nodeByIdId: ID!) {
+    nodeById(id: $nodeByIdId) {
+        location {
+            longitude
+            latitude
+        }
+    }
+}

@@ -16,7 +16,7 @@
     <string name="yes">Yes</string>
     <string name="remove_message">Favorites node removed</string>
     <string name="count_to_load">10</string>
-    <string name="error_message">"Unknown error"</string>
+    <string name="error_message">"No internet connection"</string>
     <string name="stub_picture">picture</string>
     <string name="cpu_resource_unit">CRU</string>
     <string name="ssd_resource_unit">SRU</string>

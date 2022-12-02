@@ -15,13 +15,8 @@ class TFgridExplorerApplication : Application() {
         startKoin {
             androidContext(this@TFgridExplorerApplication)
             modules(
-                apiModule,
-                databaseModule,
-                repositoryModule,
-                viewModelModule,
-                favoritesDatabaseModule,
-                graphModule,
-                serviceModule
+                dataModules,
+                viewModelModule
             )
         }
     }

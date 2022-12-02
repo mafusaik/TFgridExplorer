@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.homework.hlazarseni.tfgridexplorer.R
 import by.homework.hlazarseni.tfgridexplorer.addVerticalGaps
+import by.homework.hlazarseni.tfgridexplorer.data.mapper.toDomain
+import by.homework.hlazarseni.tfgridexplorer.data.model.DetailNode
 import by.homework.hlazarseni.tfgridexplorer.databinding.FavoritesNodeFragmentBinding
-import by.homework.hlazarseni.tfgridexplorer.domain.model.DetailNode
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
+import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.adapter.FavoritesNodeAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -33,7 +34,7 @@ class FavoritesNodeFragment : Fragment() {
             onNodeClicked = {
                 findNavController().navigate(
                     FavoritesNodeFragmentDirections.toNodeDetailFragment(
-                        DetailNode(it)
+                        DetailNode(it.toDomain())
                     )
                 )
             }
@@ -82,7 +83,7 @@ class FavoritesNodeFragment : Fragment() {
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val position = viewHolder.adapterPosition
+                    val position = viewHolder.absoluteAdapterPosition
                     val currentNode = adapter.currentList[position]
                     showConfirmationDeleteDialog(view, currentNode, position)
 

@@ -2,25 +2,25 @@ package by.homework.hlazarseni.tfgridexplorer.presentation.ui.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.*
-import by.homework.hlazarseni.tfgridexplorer.data.model.Node
-import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeRepositoryImpl
+import by.homework.hlazarseni.tfgridexplorer.data.repository.NodeFavoriteDatabaseRepositoryImpl
+import by.homework.hlazarseni.tfgridexplorer.domain.model.Node
 import kotlinx.coroutines.launch
 
 class FavoritesNodeViewModel(
-    private val nodeRepositoryImpl: NodeRepositoryImpl
+    private val dataRepository: NodeFavoriteDatabaseRepositoryImpl
 ) : ViewModel() {
 
-    val allFavoritesNode: LiveData<List<Node>> = nodeRepositoryImpl.getFavoritesNodesDB().asLiveData()
+    val allFavoritesNode: LiveData<List<Node>> = dataRepository.getFavoritesNodesDB().asLiveData()
 
    fun deletingNode(node: Node) {
         viewModelScope.launch {
-            nodeRepositoryImpl.deleteFavoritesNode(node)
+            dataRepository.deleteFavoritesNode(node)
         }
     }
 
     fun addingNode(node: Node) {
         viewModelScope.launch {
-            nodeRepositoryImpl.addFavoritesNodeDB(node)
+            dataRepository.addFavoritesNodeDB(node)
         }
     }
 }

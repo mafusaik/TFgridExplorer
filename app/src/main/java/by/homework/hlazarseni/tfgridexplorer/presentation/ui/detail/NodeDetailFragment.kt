@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -18,7 +19,6 @@ import by.homework.hlazarseni.tfgridexplorer.databinding.NodeDetailFragmentBindi
 import by.homework.hlazarseni.tfgridexplorer.presentation.model.Lce
 import by.homework.hlazarseni.tfgridexplorer.presentation.ui.detail.util.TimeConverter.timeToString
 import coil.load
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,7 +42,6 @@ class NodeDetailFragment : Fragment() {
             .also { _binding = it }
             .root
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -103,6 +102,7 @@ class NodeDetailFragment : Fragment() {
 
                             val nodeLatitude = viewModel.getLatitude()
                             val nodeLongitude = viewModel.getLongitude()
+
                             buttonToMap.setOnClickListener {
                                 val action = NodeDetailFragmentDirections.toMapFragment(
                                     args.node,
@@ -115,10 +115,10 @@ class NodeDetailFragment : Fragment() {
                             progress.isVisible = false
                         }
                         is Lce.Error -> {
-                            Snackbar.make(
-                                view,
-                                it.throwable.message ?: "Error",
-                                Snackbar.LENGTH_SHORT
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.error_message),
+                                Toast.LENGTH_SHORT
                             ).show()
                         }
                     }
