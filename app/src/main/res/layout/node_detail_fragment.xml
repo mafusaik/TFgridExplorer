@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_detail"
+        style="@style/Widget.MaterialComponents.Toolbar.Primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+        app:title="Node Details" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_detail"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-            app:title="Node Details" />
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/detail_image"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:contentDescription="@string/stub_picture"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbar_detail"
-            tools:src="@tools:sample/backgrounds/scenic"
-            android:contentDescription="@string/stub_picture" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/constraint_progress_bar"
+            tools:src="@tools:sample/backgrounds/scenic" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraint_progress_bar"
@@ -56,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relative_cru"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,11 +72,14 @@
                 <ProgressBar
                     android:id="@+id/progress_cru"
                     style="?android:attr/progressBarStyleHorizontal"
+                    app:layout_constraintHorizontal_weight="1"
                     android:layout_width="@dimen/progress_bar_size"
                     android:layout_height="@dimen/progress_bar_size"
                     android:progressDrawable="@drawable/background"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <TextView
                     android:id="@+id/percent_cru_text"
@@ -80,8 +87,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@android:color/transparent"
-                    android:gravity="center" />
-            </RelativeLayout>
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/text_sru"
@@ -97,7 +108,7 @@
                 app:layout_constraintStart_toEndOf="@id/text_cru"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relative_sru"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,8 +123,10 @@
                     android:layout_width="@dimen/progress_bar_size"
                     android:layout_height="@dimen/progress_bar_size"
                     android:progressDrawable="@drawable/background"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/percent_sru_text"
@@ -121,8 +134,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@android:color/transparent"
-                    android:gravity="center" />
-            </RelativeLayout>
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/text_hru"
@@ -138,7 +155,7 @@
                 app:layout_constraintStart_toEndOf="@id/text_sru"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relative_hru"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -153,8 +170,10 @@
                     android:layout_width="@dimen/progress_bar_size"
                     android:layout_height="@dimen/progress_bar_size"
                     android:progressDrawable="@drawable/background"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/percent_hru_text"
@@ -162,8 +181,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@android:color/transparent"
-                    android:gravity="center" />
-            </RelativeLayout>
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/text_mru"
@@ -179,7 +202,7 @@
                 app:layout_constraintStart_toEndOf="@id/text_hru"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <RelativeLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/relative_mru"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -194,8 +217,10 @@
                     android:layout_width="@dimen/progress_bar_size"
                     android:layout_height="@dimen/progress_bar_size"
                     android:progressDrawable="@drawable/background"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
                     android:id="@+id/percent_mru_text"
@@ -203,8 +228,12 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:background="@android:color/transparent"
-                    android:gravity="center" />
-            </RelativeLayout>
+                    android:gravity="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -330,4 +359,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
